@@ -1,0 +1,71 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+<style>
+    .details li,
+    .details li span {
+        font-size: 18px !important;
+    }
+
+    .details li span {
+        display: inline-block !important;
+        font-weight: bold !important;
+    }
+</style>
+{{end head}}
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="container">
+
+            <div class="mb-3">
+                {{=A(SPAN(I(_class= "fa fa-list"), ' Administrar'),_href=URL('usuario', 'administrar',args=[]), _class='btn btn-success')}}
+            </div>
+
+            <div class="pd-20 card-box mb-30 profile-info">
+
+                <div class="row clearfix" style="margin-bottom: 20px!important;">
+                    <div class="col-md-6">
+                        <h4 class="text-blue h4">Detalles</h4>
+                    </div>
+
+                    <div class="col-md-6 text-right">
+                        {{=A(SPAN(I(_class= "fa fa-pencil"), ''),_href=URL('usuario', 'editar',args=[usuario.id]), _class='btn btn-success', _title="Editar")}}
+                        {{=A(SPAN(I(_class= "fa fa-refresh"), ''),_href=URL('usuario', 'cambiar_clave_usuario',args=[usuario.id]), _class='btn btn-info', _title="Cambiar contraseña")}}
+
+                    </div>
+                </div>
+                <ul class="details">
+                    <li>
+                        <span>Nombre completo:</span>
+                        {{=usuario.first_name + " " + usuario.last_name}}
+                    </li>
+                    <li>
+                        <span>Usuario:</span>
+                        {{=usuario.username}}
+                    </li>
+                    <li>
+                        <span>Correo:</span>
+                        {{=usuario.email}}
+                    </li>
+                    <li>
+                        <span>Rol:</span>
+                        {{=rol}}
+                    </li>
+                    <li>
+                        <span>Provincia:</span>
+                        {{=provincia}}
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{{block page_js}}
+
+{{end page_js}}

@@ -1,0 +1,9 @@
+TABLE grupo_edades
+grupo_edades.id,grupo_edades.grupo
+1,De 0 a 10
+2,De 11 a 20
+3,De 21 a 30
+4,De 31 a 40
+5,De 41 a 50
+6,De 51 o más
+END

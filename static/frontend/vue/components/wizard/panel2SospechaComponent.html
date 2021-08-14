@@ -1,0 +1,445 @@
+<div>
+    <div class="wizard-content">
+        <div class="tab-wizard wizard-circle wizard">
+            <div class="steps clearfix">
+                <ul role="tablist">
+                    <li role="tab" class="first" :class="clase_opcion(5)" aria-disabled="false" aria-selected="true">
+                        <a id="steps-uid-0-t-0" href="#" aria-controls="steps-uid-0-p-0">
+                            <span class="current-info audible">current step: </span>
+                            <span class="step">5</span>
+                            Fallecidos, críticos y graves
+                        </a>
+                    </li>
+
+                    <li role="tab" :class="clase_opcion(6)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">6</span>
+                            Sospechosos
+                        </a>
+                    </li>
+
+                    <li role="tab" :class="clase_opcion(7)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">7</span>
+                            Casos IRA
+                        </a>
+                    </li>
+
+                    <li role="tab" class="last" :class="clase_opcion(8)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">8</span>
+                            Atención por IRA
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+
+            <div style="padding: 10px!important;">
+                <!--Fallecidos-->
+                <div v-show="opcion == 5">
+                    <validation-observer ref="fallecidosObserver" v-slot="{ invalid }">
+                        <h5>Fallecidos, críticos y graves</h5>
+
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Fallecidos por COVID:</label>
+
+                                        <validation-provider name="Fallecidos por COVID" vid="fallecidos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="fallecidos" type="number"
+                                                v-model.lazy="datos.fallecidos.covid_fallecidos" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Críticos por COVID:</label>
+
+                                        <validation-provider name="Críticos por COVID" vid="criticos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="criticos" type="number"
+                                                v-model.lazy="datos.fallecidos.covid_criticos" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Graves por COVID:</label>
+
+                                        <validation-provider name="Graves por COVID" vid="graves"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="graves" type="number"
+                                                v-model.lazy="datos.fallecidos.covid_graves" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Graves por IRA:</label>
+
+                                        <validation-provider name="Graves por IRA" vid="graves_ira"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="graves_ira" type="number"
+                                                v-model.lazy="datos.fallecidos.ira_graves" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Graves por IRA pendientes de PCR:</label>
+
+                                        <validation-provider name="Graves por IRA pendientes de PCR"
+                                            vid="graves_ira_pendientes_pcr" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="graves_ira_pendientes_pcr" type="number"
+                                                v-model.lazy="datos.fallecidos.ira_graves_pendiente_pcr"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Altas clínicas de COVID:</label>
+
+                                        <validation-provider name="Altas clínicas de COVID" vid="altas_clinicas_covid"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="altas_clinicas_covid" type="number"
+                                                v-model.lazy="datos.fallecidos.altas_clinicas_covid"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Altas clínicas a Sospechosos:</label>
+
+                                        <validation-provider name="Altas clínicas a Sospechosos" vid="altas_sospechosos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="altas_sospechosos" type="number"
+                                                v-model.lazy="datos.fallecidos.altas_sospechosos" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Altas clínicas a Contactos:</label>
+
+                                        <validation-provider name="Altas clínicas a Contactos" vid="altas_contactos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="altas_contactos" type="number"
+                                                v-model.lazy="datos.fallecidos.altas_contactos" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Sospechosos-->
+                <div v-show="opcion == 6">
+                    <validation-observer ref="sospechososObserver" v-slot="{ invalid }">
+                        <h5>Sospechosos</h5>
+
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Ingresados:</label>
+
+                                        <validation-provider name="Ingresados" vid="ingresados"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="ingresados" type="number"
+                                                v-model.lazy="datos.sospechosos.ingresados" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>En la comunidad:</label>
+
+                                        <validation-provider name="En la comunidad" vid="comunidad"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="comunidad" type="number"
+                                                v-model.lazy="datos.sospechosos.comunidad" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Identificados en Hospitales:</label>
+
+                                        <validation-provider name="Identificados en Hospitales" vid="iden_hospital"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="iden_hospital" type="number"
+                                                v-model.lazy="datos.sospechosos.iden_hospital" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Identificados en Policlínicos:</label>
+
+                                        <validation-provider name="Identificados en Policlínicos" vid="iden_policlinico"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="iden_policlinico" type="number"
+                                                v-model.lazy="datos.sospechosos.iden_policlinico" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Identificados en Consultorios:</label>
+
+                                        <validation-provider name="Identificados en Consultorios" vid="iden_consultorio"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="iden_consultorio" type="number"
+                                                v-model.lazy="datos.sospechosos.iden_consultorio" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Identificados por Pesquisa:</label>
+
+                                        <validation-provider name="Identificados por Pesquisa" vid="iden_pesquisa"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="iden_pesquisa" type="number"
+                                                v-model.lazy="datos.sospechosos.iden_pesquisa" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Casos IRA-->
+                <div v-show="opcion == 7">
+                    <validation-observer ref="casosIRAObserver" v-slot="{ invalid }">
+                        <h5>Casos de IRA</h5>
+
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Ingresados:</label>
+
+                                        <validation-provider name="Ingresados" vid="ingresados"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="ingresados" type="number"
+                                                v-model.lazy="datos.casosIRA.ingresados" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>En la comunidad:</label>
+
+                                        <validation-provider name="En la comunidad" vid="comunidad"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="comunidad" type="number" v-model.lazy="datos.casosIRA.comunidad"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Identificados en Hospitales:</label>
+
+                                        <validation-provider name="Identificados en Hospitales" vid="iden_hospital"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="iden_hospital" type="number"
+                                                v-model.lazy="datos.casosIRA.iden_hospital" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Identificados en Policlínicos:</label>
+
+                                        <validation-provider name="Identificados en Policlínicos" vid="iden_policlinico"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="iden_policlinico" type="number"
+                                                v-model.lazy="datos.casosIRA.iden_policlinico" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Identificados en Consultorios:</label>
+
+                                        <validation-provider name="Identificados en Consultorios" vid="iden_consultorio"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="iden_consultorio" type="number"
+                                                v-model.lazy="datos.casosIRA.iden_consultorio" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Identificados por Pesquisa:</label>
+
+                                        <validation-provider name="Identificados por Pesquisa" vid="iden_pesquisa"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="iden_pesquisa" type="number"
+                                                v-model.lazy="datos.casosIRA.iden_pesquisa" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Atencion IRA-->
+                <div v-show="opcion == 8">
+                    <validation-observer ref="atencionIRAObserver" v-slot="{ invalid }">
+                        <h5>Atención por IRA</h5>
+                        
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Reportados en Hospitales:</label>
+
+                                        <validation-provider name="Reportados en Hospitales" vid="repor_hospital"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="repor_hospital" type="number"
+                                                v-model.lazy="datos.atencionIRA.repor_hospital" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Reportados en Policlínicos:</label>
+
+                                        <validation-provider name="Reportados en Policlínicos" vid="repor_policlinico"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="repor_policlinico" type="number" v-model.lazy="datos.atencionIRA.repor_policlinico"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Reportados en Consultorios:</label>
+
+                                        <validation-provider name="Reportados en Consultorios" vid="repor_consultorio"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="repor_consultorio" type="number"
+                                                v-model.lazy="datos.atencionIRA.repor_consultorio" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </validation-observer>
+                </div>
+            </div>
+
+
+            <!--Botones de wizard-->
+            <div class="col-md-12 text-right mt-4">
+                <button class="btn btn-danger" v-show="opcion > 1" @click="decrementarOpcion()">Atrás</button>
+
+                <button class="btn btn-primary" v-show="opcion < 10" @click="incrementarOpcion()">Siguiente</button>
+            </div>
+
+        </div>
+    </div>
+
+   
+
+</div>

@@ -1,0 +1,588 @@
+<div>
+    <div class="wizard-content">
+        <div class="tab-wizard wizard-circle wizard">
+            <div class="steps clearfix">
+                <ul role="tablist">
+                    <li role="tab" class="first" :class="clase_opcion(1)" aria-disabled="false" aria-selected="true">
+                        <a id="steps-uid-0-t-0" href="#" aria-controls="steps-uid-0-p-0">
+                            <span class="current-info audible">current step: </span>
+                            <span class="step">1</span>
+                            Confirmados
+                        </a>
+                    </li>
+
+                    <li role="tab" :class="clase_opcion(2)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">2</span>
+                            Confirmados por municipios
+                        </a>
+                    </li>
+
+                    <li role="tab" :class="clase_opcion(3)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">3</span>
+                            Confirmados por edades
+                        </a>
+                    </li>
+
+                    <li role="tab" class="last" :class="clase_opcion(4)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">4</span>
+                            Casos Activos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+
+            <div style="padding: 10px!important;">
+                <!--Confirmados Info-->
+                <div v-show="opcion == 1">
+                    <validation-observer ref="confirmadosObserver" v-slot="{ invalid }">
+                        <h5>Casos confirmados</h5>
+                        <p style="color: red;" v-show="error_sint_asin">
+                            La suma de los Sintomáticos y los Asintomáticos debe ser igual al
+                            Total de casos
+                        </p>
+                        <p style="color: red;" v-show="error_cub_ext">
+                            La suma de los Cubanos y los Extranjeros debe ser igual al
+                            Total de casos
+                        </p>
+                        <p style="color: red;" v-show="error_masc_fem">
+                            La suma de los Masculinos y los Femeninos debe ser igual al
+                            Total de casos
+                        </p>
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Total de casos:</label>
+
+                                        <validation-provider name="Total de casos" vid="total_confirmados"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="total_confirmados" type="number"
+                                                v-model.lazy="datos.confirmados.total" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Sin fuente de infección definida:</label>
+
+                                        <validation-provider name="Sin FID" vid="sin_fid"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="sin_fid" type="number" v-model.lazy="datos.confirmados.sin_fid"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Sintomáticos:</label>
+
+                                        <validation-provider name="Sintomáticos" vid="sintomaticos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="sintomaticos" type="number"
+                                                v-model.lazy="datos.confirmados.sintomaticos" class="form-control"
+                                                :class="{'form-control-danger':error_sint_asin}">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Asintomáticos:</label>
+
+                                        <validation-provider name="Asintomáticos" vid="asintomaticos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="asintomaticos" type="number"
+                                                v-model.lazy="datos.confirmados.asintomaticos" class="form-control"
+                                                :class="{'form-control-danger':error_sint_asin}">
+
+                                            <div style=" color: red;">[[ errors[0] ]]
+                                            </div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Cubanos:</label>
+
+                                        <validation-provider name="Cubanos" vid="cubanos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="cubanos" type="number" v-model.lazy="datos.confirmados.cubanos"
+                                                class="form-control" :class="{'form-control-danger':error_cub_ext}">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Extranjeros:</label>
+
+                                        <validation-provider name="Extranjeros" vid="extranjeros"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="extranjeros" type="number"
+                                                v-model.lazy="datos.confirmados.extranjeros" class="form-control"
+                                                :class="{'form-control-danger':error_cub_ext}">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Masculinos:</label>
+
+                                        <validation-provider name="Masculinos" vid="masculinos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="masculinos" type="number"
+                                                v-model.lazy="datos.confirmados.masculinos" class="form-control"
+                                                :class="{'form-control-danger':error_masc_fem}">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Femeninos:</label>
+
+                                        <validation-provider name="Femeninos" vid="femeninos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="femeninos" type="number"
+                                                v-model.lazy="datos.confirmados.femeninos" class="form-control"
+                                                :class="{'form-control-danger':error_masc_fem}">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Total de contactos:</label>
+
+                                        <validation-provider name="Total de contactos" vid="contactos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="contactos" type="number"
+                                                v-model.lazy="datos.confirmados.contactos" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Casos asilados:</label>
+
+                                        <validation-provider name="Casos asilados" vid="casos_aislados"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="casos_aislados" type="number"
+                                                v-model.lazy="datos.confirmados.casos_aislados" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Casos en la comunidad:</label>
+
+                                        <validation-provider name="Casos en la comunidad" vid="casos_comunidad"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="casos_comunidad" type="number"
+                                                v-model.lazy="datos.confirmados.casos_comunidad" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Casos en vigilancia APS:</label>
+
+                                        <validation-provider name="Casos en vigilancia APS" vid="casos_vigilancia_aps"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="casos_vigilancia_aps" type="number"
+                                                v-model.lazy="datos.confirmados.casos_vigilancia_aps"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Confirmados por municipio-->
+                <div v-show="opcion == 2">
+                    <validation-observer ref="municipiosObserver" v-slot="{ invalid }">
+                        <h5>Confirmados por municipios</h5>
+                        <p style="color: red;" v-show="error_municipios">
+                            La suma de los Casos por Municipio debe ser igual al
+                            Total de casos
+                        </p>
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Municipios</label>
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <select id="selectMunicipio" class="custom-select2 form-control"
+                                                    name="municipio_confirmado"
+                                                    style="display:inline-block;width: 100%; height: 38px;">
+                                                    <option disabled value="">Seleccionar municipio</option>
+                                                    <optgroup v-for="(list_municipios, provincia) in provincias"
+                                                        :label="provincia">
+                                                        <option v-for="municipio in list_municipios"
+                                                            :value="municipio.id">
+                                                            [[ municipio.nombre ]]
+                                                        </option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <button class="btn btn-success" @click="addMunicipio()">
+                                                    <span><i class="fa fa-plus"></i></span>
+                                                    Añadir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" v-show="datos.confirmados.municipios.length">
+                                <div class="col-md-12">
+                                    <p style="color: red;" v-show="existeMunicipio">
+                                        El municipio ya fue seleccionado
+                                    </p>
+                                </div>
+
+                                <!--Tabla de municipios-->
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Municipio</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(municipio, key) in datos.confirmados.municipios">
+                                                    <th scope="row">
+                                                        [[ municipio.nombre ]]
+                                                    </th>
+                                                    <th scope="row">
+
+                                                        <validation-provider name="Cantidad" vid="cant_municipio"
+                                                            rules="required|numeric|min_value:1"
+                                                            v-slot="{ errors, classes }">
+
+                                                            <input id="cant_municipio" type="number"
+                                                                v-model.lazy="municipio.cantidad" class="form-control"
+                                                                :class="{'form-control-danger': error_municipios}">
+
+                                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                                        </validation-provider>
+
+                                                    </th>
+                                                    <th scope="row">
+                                                        <button class="btn btn-danger"
+                                                            @click="quitarMunicipio(key)"><span><i
+                                                                    class="fa fa-trash"></i></span></button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" v-show="!datos.confirmados.municipios.length">
+                                <div class="col-md-12 text-left">
+                                    <h6>No se han añadido municipios</h6>
+                                </div>
+                            </div>
+
+
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Confirmados por grupo de edades-->
+                <div v-show="opcion == 3">
+                    <validation-observer ref="edadesObserver" v-slot="{ invalid }">
+                        <h5>Confirmados por grupo de edades</h5>
+                        <p style="color: red;" v-show="error_grupo_edades">
+                            La suma de los Casos por Grupo de Edades debe ser igual al
+                            Total de casos
+                        </p>
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Grupo de edades</label>
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <select id="selectGrupoEdades" class="custom-select2 form-control"
+                                                    name="grupo_edades"
+                                                    style="display:inline-block;width: 100%; height: 38px;">
+                                                    <option disabled value="">Seleccionar grupo</option>
+
+                                                    <option v-for="edades in grupo_edades" :value="edades.id">
+                                                        [[ edades.grupo ]]
+                                                    </option>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <button class="btn btn-success" @click="addGrupoEdades()">
+                                                    <span><i class="fa fa-plus"></i></span>
+                                                    Añadir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" v-show="datos.confirmados.grupo_edades.length">
+                                <div class="col-md-12">
+                                    <p style="color: red;" v-show="existeGrupoEdades">
+                                        Ese grupo de edades ya fue seleccionado
+                                    </p>
+                                </div>
+
+                                <!--Tabla de grupo de edades-->
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Grupo de edades</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(edades, key) in datos.confirmados.grupo_edades">
+                                                    <th scope="row">
+                                                        [[ edades.grupo ]]
+                                                    </th>
+                                                    <th scope="row">
+
+                                                        <validation-provider name="Cantidad" vid="cant_edades"
+                                                            rules="required|numeric|min_value:1"
+                                                            v-slot="{ errors, classes }">
+
+                                                            <input id="cant_edades" type="number"
+                                                                v-model.lazy="edades.cantidad" class="form-control"
+                                                                :class="{'form-control-danger': error_grupo_edades}">
+
+                                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                                        </validation-provider>
+
+                                                    </th>
+                                                    <th scope="row">
+                                                        <button class="btn btn-danger"
+                                                            @click="quitarGrupoEdades(key)"><span><i
+                                                                    class="fa fa-trash"></i></span></button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" v-show="!datos.confirmados.grupo_edades.length">
+                                <div class="col-md-12 text-left">
+                                    <h6>No se han añadido grupo de edades</h6>
+                                </div>
+                            </div>
+
+
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Casos activos-->
+                <div v-show="opcion == 4">
+                    <validation-observer ref="activosObserver" v-slot="{ invalid }">
+                        <h5>Activos</h5>
+                        <section class="mt-2 mb-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Total de casos activos:</label>
+
+                                        <validation-provider name="Total de casos activos" vid="total_activos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="total_activos" type="number" v-model.lazy="datos.activos.total"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <h5>Ubicación de los casos activos</h5>
+                        <p style="color: red;" v-show="error_ubicacion_activos">
+                            La suma de los Casos por Ubicación debe ser igual a los casos Activos
+                        </p>
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Ubicación:</label>
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <select id="selectUbicacion" class="custom-select2 form-control"
+                                                    name="ubicacion"
+                                                    style="display:inline-block;width: 100%; height: 38px;">
+                                                    <option value="0"></option>
+                                                    <optgroup
+                                                        v-for="(list_ubicaciones, municipio) in municipios_ubicaciones"
+                                                        :label="municipio">
+                                                        <option v-for="ubicacion in list_ubicaciones"
+                                                            :value="ubicacion.id">
+                                                            [[ ubicacion.nombre ]]
+                                                        </option>
+                                                    </optgroup>
+                                                </select>
+                                                
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <button class="btn btn-success" @click="addUbicacion()">
+                                                    <span><i class="fa fa-plus"></i></span>
+                                                    Añadir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" v-show="datos.activos.ubicaciones.length">
+                                <div class="col-md-12">
+                                    <p style="color: red;" v-show="existeUbicacion">
+                                        Esta ubicación ya fue seleccionada
+                                    </p>
+                                </div>
+
+                                <!--Tabla de ubicaciones-->
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Ubicación</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(ubicacion, key) in datos.activos.ubicaciones">
+                                                    <th scope="row">
+                                                        [[ ubicacion.nombre ]]
+                                                    </th>
+                                                    <th scope="row">
+
+                                                        <validation-provider name="Cantidad" vid="cant_ubicacion"
+                                                            rules="required|numeric|min_value:1"
+                                                            v-slot="{ errors, classes }">
+
+                                                            <input id="cant_ubicacion" type="number"
+                                                                v-model.lazy="ubicacion.cantidad" class="form-control"
+                                                                :class="{'form-control-danger': error_ubicacion_activos}">
+
+                                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                                        </validation-provider>
+
+                                                    </th>
+                                                    <th scope="row">
+                                                        <button class="btn btn-danger"
+                                                            @click="quitarUbicacion(key)"><span><i
+                                                                    class="fa fa-trash"></i></span></button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" v-show="!datos.activos.ubicaciones.length">
+                                <div class="col-md-12 text-left">
+                                    <h6>No se han añadido ubicaciones</h6>
+                                </div>
+                            </div>
+
+
+                        </section>
+                    </validation-observer>
+                </div>
+            </div>
+
+
+            <!--Botones de wizard-->
+            <div class="col-md-12 text-right mt-4">
+                <button class="btn btn-danger" v-show="opcion > 1" @click="decrementarOpcion()">Atrás</button>
+
+                <button class="btn btn-primary" v-show="opcion < 10" @click="incrementarOpcion()">Siguiente</button>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

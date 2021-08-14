@@ -1,0 +1,385 @@
+timestamp: 2020-10-28T13:24:33.692383
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "first_name" CHAR(128),
+    "last_name" CHAR(128),
+    "email" CHAR(512),
+    "username" CHAR(128),
+    "password" CHAR(512),
+    "registration_key" CHAR(512),
+    "reset_password_key" CHAR(512),
+    "registration_id" CHAR(512)
+);
+success!
+timestamp: 2020-10-28T13:24:33.996196
+CREATE TABLE "auth_group"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "role" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2020-10-28T13:24:34.134112
+CREATE TABLE "auth_membership"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:34.350976
+CREATE TABLE "auth_permission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" CHAR(512),
+    "table_name" CHAR(512),
+    "record_id" INTEGER
+);
+success!
+timestamp: 2020-10-28T13:24:34.546856
+CREATE TABLE "auth_event"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "time_stamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2020-10-28T13:24:34.850670
+CREATE TABLE "auth_cas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" CHAR(512),
+    "ticket" CHAR(512),
+    "renew" CHAR(1)
+);
+success!
+timestamp: 2020-10-28T13:24:35.166473
+CREATE TABLE "provincia"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512)
+);
+success!
+timestamp: 2020-10-28T13:24:35.485278
+CREATE TABLE "usuario_provincia"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "idprovincia" INTEGER REFERENCES "provincia" ("id") ON DELETE CASCADE  ,
+    "idusuario" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:35.724132
+CREATE TABLE "reporte"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "fecha" DATE,
+    "idprovincia" INTEGER REFERENCES "provincia" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:35.992966
+CREATE TABLE "confirmados"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "total" INTEGER,
+    "sin_fid" INTEGER,
+    "sintomaticos" INTEGER,
+    "asintomaticos" INTEGER,
+    "cubanos" INTEGER,
+    "extranjeros" INTEGER,
+    "masculinos" INTEGER,
+    "femeninos" INTEGER,
+    "contactos" INTEGER,
+    "promedio_contactos_por_caso" INTEGER,
+    "casos_aislados" INTEGER,
+    "casos_comunidad" INTEGER,
+    "casos_vigilancia_aps" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:36.163861
+CREATE TABLE "municipio"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "idprovincia" INTEGER REFERENCES "provincia" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:36.366733
+CREATE TABLE "municipio_confirmados"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "cantidad" INTEGER,
+    "idmunicipio" INTEGER REFERENCES "municipio" ("id") ON DELETE CASCADE  ,
+    "idconfirmados" INTEGER REFERENCES "confirmados" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:36.593594
+CREATE TABLE "grupo_edades"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "grupo" CHAR(512)
+);
+success!
+timestamp: 2020-10-28T13:24:36.806466
+CREATE TABLE "edades_confirmados"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "cantidad" INTEGER,
+    "idgrupo_edades" INTEGER REFERENCES "grupo_edades" ("id") ON DELETE CASCADE  ,
+    "idconfirmados" INTEGER REFERENCES "confirmados" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:37.064303
+CREATE TABLE "activos"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "total" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:37.357127
+CREATE TABLE "ubicacion"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "idmunicipio" INTEGER REFERENCES "municipio" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:37.687922
+CREATE TABLE "ubicacion_activos"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "cantidad" INTEGER,
+    "idactivos" INTEGER REFERENCES "activos" ("id") ON DELETE CASCADE  ,
+    "idubicacion" INTEGER REFERENCES "ubicacion" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:38.037706
+CREATE TABLE "fallecidos_criticos_graves"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "covid_fallecidos" INTEGER,
+    "covid_criticos" INTEGER,
+    "covid_graves" INTEGER,
+    "ira_graves" INTEGER,
+    "ira_graves_pendiente_pcr" INTEGER,
+    "altas_clinicas_covid" INTEGER,
+    "altas_sospechosos" INTEGER,
+    "altas_contactos" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:38.272561
+CREATE TABLE "sospechosos"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "ingresados" INTEGER,
+    "comunidad" INTEGER,
+    "iden_hospital" INTEGER,
+    "iden_policlinico" INTEGER,
+    "iden_consultorio" INTEGER,
+    "iden_pesquisa" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:38.671314
+CREATE TABLE "casos_ira"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "ingresados" INTEGER,
+    "comunidad" INTEGER,
+    "iden_hospital" INTEGER,
+    "iden_policlinico" INTEGER,
+    "iden_consultorio" INTEGER,
+    "iden_pesquisa" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:38.977127
+CREATE TABLE "atencion_ira"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "repor_hospital" INTEGER,
+    "repor_policlinico" INTEGER,
+    "repor_consultorio" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:39.261951
+CREATE TABLE "pesquisa_activa"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "porciento_pesquisada" INTEGER,
+    "a_pesquisar" INTEGER,
+    "presuntas_ira_identificadas" INTEGER,
+    "presuntas_ira_atendidas" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:39.644715
+CREATE TABLE "eventos"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "fecha_apertura" DATE,
+    "fecha_ultimo_caso" DATE,
+    "fecha_cierre" CHAR(512),
+    "tipo_evento" CHAR(512),
+    "estado" CHAR(512),
+    "idmunicipio" INTEGER REFERENCES "municipio" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:39.877573
+CREATE TABLE "evento_diario"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "cantidad" INTEGER,
+    "ideventos" INTEGER REFERENCES "eventos" ("id") ON DELETE CASCADE  ,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:40.073451
+CREATE TABLE "control_foco"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "fecha_apertura" DATE,
+    "fecha_ultimo_caso" DATE,
+    "fecha_cierre" CHAR(512),
+    "estado" CHAR(512),
+    "idmunicipio" INTEGER REFERENCES "municipio" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:40.258338
+CREATE TABLE "control_foco_diario"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "cantidad" INTEGER,
+    "idcontrol_foco" INTEGER REFERENCES "control_foco" ("id") ON DELETE CASCADE  ,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:40.480201
+CREATE TABLE "movimiento_hospitalario"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "ingresados" INTEGER,
+    "confirmados_ingresados" INTEGER,
+    "sospechosos_ingresados" INTEGER,
+    "contactos_ingresados" INTEGER,
+    "disponibilidad_camas_ingreso" INTEGER,
+    "disponibilidad_camas_graves" INTEGER,
+    "disponibilidad_camas_sospechosos" INTEGER,
+    "disponibilidad_camas_contactos" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:40.882952
+CREATE TABLE "vigilancia"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "muestras_tomadas" INTEGER,
+    "muestras_enviadas" INTEGER,
+    "muestras_eventos" INTEGER,
+    "muestras_control_foco" INTEGER,
+    "acumuladas_enviadas" INTEGER,
+    "resultados_positivos" INTEGER,
+    "resultados_confirmatorios" INTEGER,
+    "resultados_negativos" INTEGER,
+    "resultados_evolutivos" INTEGER,
+    "resultados_inhibidos" INTEGER,
+    "tiempo_promedio_salida" INTEGER,
+    "tiempo_promedio_resultado" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:41.058844
+CREATE TABLE "origen"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "idmunicipio" INTEGER REFERENCES "municipio" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:41.467592
+CREATE TABLE "origen_muestras"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "cantidad" INTEGER,
+    "idvigilancia" INTEGER REFERENCES "vigilancia" ("id") ON DELETE CASCADE  ,
+    "idorigen" INTEGER REFERENCES "origen" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:41.692455
+CREATE TABLE "muestras_pendientes"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "con_2_dias" INTEGER,
+    "con_mas_3_dias" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:41.969284
+CREATE TABLE "inspeccion_sanitaria_estatal"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "centros_visitados" INTEGER,
+    "centros_inspeccionados" INTEGER,
+    "inspectores_salieron" INTEGER,
+    "medidas_impuestas" INTEGER,
+    "idreporte" INTEGER REFERENCES "reporte" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:42.284092
+CREATE TABLE "municipio_no_salieron"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "idinspeccion" INTEGER REFERENCES "inspeccion_sanitaria_estatal" ("id") ON DELETE CASCADE  ,
+    "idmunicipio" INTEGER REFERENCES "municipio" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:42.516945
+CREATE TABLE "municipio_no_medidas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "idinspeccion" INTEGER REFERENCES "inspeccion_sanitaria_estatal" ("id") ON DELETE CASCADE  ,
+    "idmunicipio" INTEGER REFERENCES "municipio" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:42.796773
+CREATE TABLE "municipio_no_inspectores"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "idinspeccion" INTEGER REFERENCES "inspeccion_sanitaria_estatal" ("id") ON DELETE CASCADE  ,
+    "idmunicipio" INTEGER REFERENCES "municipio" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2020-10-28T13:24:43.072603
+CREATE TABLE "municipio_mayor_notificaciones"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "idinspeccion" INTEGER REFERENCES "inspeccion_sanitaria_estatal" ("id") ON DELETE CASCADE  ,
+    "idmunicipio" INTEGER REFERENCES "municipio" ("id") ON DELETE CASCADE  
+);
+success!
+DELETE FROM "auth_group";
+DELETE FROM sqlite_sequence WHERE name='auth_group'
+success!
+DELETE FROM "provincia";
+DELETE FROM sqlite_sequence WHERE name='provincia'
+success!
+DELETE FROM "municipio";
+DELETE FROM sqlite_sequence WHERE name='municipio'
+success!
+DELETE FROM "grupo_edades";
+DELETE FROM sqlite_sequence WHERE name='grupo_edades'
+success!
+DELETE FROM "auth_user";
+DELETE FROM sqlite_sequence WHERE name='auth_user'
+success!
+DELETE FROM "auth_group";
+DELETE FROM sqlite_sequence WHERE name='auth_group'
+success!
+DELETE FROM "provincia";
+DELETE FROM sqlite_sequence WHERE name='provincia'
+success!
+DELETE FROM "municipio";
+DELETE FROM sqlite_sequence WHERE name='municipio'
+success!
+DELETE FROM "grupo_edades";
+DELETE FROM sqlite_sequence WHERE name='grupo_edades'
+success!
+DELETE FROM "auth_user";
+DELETE FROM sqlite_sequence WHERE name='auth_user'
+success!
+timestamp: 2021-08-03T12:18:10.921342
+CREATE TABLE "ingreso_hospitalario"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nombre" CHAR(512),
+    "apellidos" CHAR(512),
+    "edad" INTEGER,
+    "ci" CHAR(512),
+    "nombre_hospital" CHAR(512),
+    "morvilidades" TEXT,
+    "vacunado" CHAR(1),
+    "tipo_vacunacion" CHAR(512),
+    "vacuna" CHAR(512),
+    "fecha_ingreso" DATE,
+    "fecha_alta" DATE,
+    "ubicacion" INTEGER REFERENCES "municipio" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-08-06T14:45:17.172522
+ALTER TABLE "ingreso_hospitalario" ADD "fecha_vacunacion" DATE;
+success!

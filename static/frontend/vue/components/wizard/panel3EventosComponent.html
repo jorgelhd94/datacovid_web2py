@@ -1,0 +1,455 @@
+<div>
+    <div class="wizard-content">
+        <div class="tab-wizard wizard-circle wizard">
+            <div class="steps clearfix">
+                <ul role="tablist">
+                    <li role="tab" class="first" :class="clase_opcion(9)" aria-disabled="false" aria-selected="true">
+                        <a id="steps-uid-0-t-0" href="#" aria-controls="steps-uid-0-p-0">
+                            <span class="current-info audible">current step: </span>
+                            <span class="step">9</span>
+                            Pesquisa activa
+                        </a>
+                    </li>
+
+                    <li role="tab" :class="clase_opcion(10)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">10</span>
+                            Eventos
+                        </a>
+                    </li>
+
+                    <li role="tab" :class="clase_opcion(11)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">11</span>
+                            Controles de Foco
+                        </a>
+                    </li>
+
+                    <li role="tab" class="last" :class="clase_opcion(12)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">12</span>
+                            Movimiento Hospitalario
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+
+            <div style="padding: 10px!important;">
+                <!--Pesquisa Activa-->
+                <div v-show="opcion == 9">
+                    <validation-observer ref="pesquisaActivaObserver" v-slot="{ invalid }">
+                        <h5>Pesquisa Activa</h5>
+
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Porciento de Pesquisa:</label>
+
+                                        <validation-provider name="Porciento de Pesquisa" vid="porciento_pesquisada"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="porciento_pesquisada" type="number"
+                                                v-model.lazy="datos.pesquisa_activa.porciento_pesquisada"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Población a pesquisar:</label>
+
+                                        <validation-provider name="Población a pesquisar" vid="a_pesquisar"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="a_pesquisar" type="number"
+                                                v-model.lazy="datos.pesquisa_activa.a_pesquisar" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Presuntas IRA identificadas:</label>
+
+                                        <validation-provider name="Presuntas IRA identificadas"
+                                            vid="presuntas_ira_identificadas" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="presuntas_ira_identificadas" type="number"
+                                                v-model.lazy="datos.pesquisa_activa.presuntas_ira_identificadas"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Presuntas IRA atendidas:</label>
+
+                                        <validation-provider name="Presuntas IRA identificadas"
+                                            vid="presuntas_ira_atendidas" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="presuntas_ira_atendidas" type="number"
+                                                v-model.lazy="datos.pesquisa_activa.presuntas_ira_atendidas"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Eventos-->
+                <div v-show="opcion == 10">
+                    <validation-observer ref="eventosObserver" v-slot="{ invalid }">
+                        <h5>Eventos</h5>
+
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Eventos</label>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <select id="selectEventos" class="custom-select2 form-control"
+                                                    name="state"
+                                                    style="display:inline-block;width: 100%; height: 38px;">
+                                                    <option disabled value="">Seleccionar evento</option>
+                                                    <option v-for="evento in eventos" :value="evento.id">
+                                                        [[ evento.nombre ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <button class="btn btn-success" @click="addEvento()">
+                                                    <span><i class="fa fa-plus"></i></span>
+                                                    Añadir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" v-show="datos.eventos.length">
+                                <div class="col-md-12">
+                                    <p style="color: red;" v-show="existeEvento">
+                                        El evento ya fue seleccionado
+                                    </p>
+                                </div>
+
+                                <!--Tabla de eventos-->
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Evento</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(evento, key) in datos.eventos">
+                                                    <th scope="row">
+                                                        [[ evento.nombre ]]
+                                                    </th>
+                                                    <th scope="row">
+
+                                                        <validation-provider name="Cantidad" vid="cant_evento"
+                                                            rules="required|numeric|min_value:1"
+                                                            v-slot="{ errors, classes }">
+
+                                                            <input id="cant_evento" type="number"
+                                                                v-model.lazy="evento.cantidad" class="form-control">
+
+                                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                                        </validation-provider>
+
+                                                    </th>
+                                                    <th scope="row">
+                                                        <button class="btn btn-danger"
+                                                            @click="quitarEvento(key)"><span><i
+                                                                    class="fa fa-trash"></i></span></button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" v-show="!datos.eventos.length">
+                                <div class="col-md-12 text-left">
+                                    <h6>No se han añadido eventos</h6>
+                                </div>
+                            </div>
+
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Controles de Foco-->
+                <div v-show="opcion == 11">
+                    <validation-observer ref="cfObserver" v-slot="{ invalid }">
+                        <h5>Controles de Foco</h5>
+
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Controles de Foco</label>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <select id="selectCF" class="custom-select2 form-control" name="state"
+                                                    style="display:inline-block;width: 100%; height: 38px;">
+                                                    <option disabled value="">Seleccionar control de foco</option>
+                                                    <option v-for="cf in controles_foco" :value="cf.id">
+                                                        [[ cf.nombre ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <button class="btn btn-success" @click="addCF()">
+                                                    <span><i class="fa fa-plus"></i></span>
+                                                    Añadir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" v-show="datos.controles_foco.length">
+                                <div class="col-md-12">
+                                    <p style="color: red;" v-show="existeCF">
+                                        El control de foco ya fue seleccionado
+                                    </p>
+                                </div>
+
+                                <!--Tabla de controles de foco-->
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Control de Foco</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(cf, key) in datos.controles_foco">
+                                                    <th scope="row">
+                                                        [[ cf.nombre ]]
+                                                    </th>
+                                                    <th scope="row">
+
+                                                        <validation-provider name="Cantidad" vid="cant_cf"
+                                                            rules="required|numeric|min_value:1"
+                                                            v-slot="{ errors, classes }">
+
+                                                            <input id="cant_cf" type="number" v-model.lazy="cf.cantidad"
+                                                                class="form-control">
+
+                                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                                        </validation-provider>
+
+                                                    </th>
+                                                    <th scope="row">
+                                                        <button class="btn btn-danger" @click="quitarCF(key)"><span><i
+                                                                    class="fa fa-trash"></i></span></button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" v-show="!datos.controles_foco.length">
+                                <div class="col-md-12 text-left">
+                                    <h6>No se han añadido controles de foco</h6>
+                                </div>
+                            </div>
+
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Movimiento Hospitalario-->
+                <div v-show="opcion == 12">
+                    <validation-observer ref="movHospitalObserver" v-slot="{ invalid }">
+                        <h5>Movimiento Hospitalario</h5>
+                        
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Ingresados:</label>
+
+                                        <validation-provider name="Ingresados" vid="ingresados"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="ingresados" type="number"
+                                                v-model.lazy="datos.movimiento_hospitalario.ingresados"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Confirmados Ingresados:</label>
+
+                                        <validation-provider name="Confirmados Ingresados" vid="confirmados_ingresados"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="confirmados_ingresados" type="number"
+                                                v-model.lazy="datos.movimiento_hospitalario.confirmados_ingresados"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Sospechosos Ingresados:</label>
+
+                                        <validation-provider name="Sospechosos Ingresados" vid="sospechosos_ingresados"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="sospechosos_ingresados" type="number"
+                                                v-model.lazy="datos.movimiento_hospitalario.sospechosos_ingresados"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Contactos Ingresados:</label>
+
+                                        <validation-provider name="Contactos Ingresados" vid="contactos_ingresados"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="contactos_ingresados" type="number"
+                                                v-model.lazy="datos.movimiento_hospitalario.contactos_ingresados"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Disponibilidad de camas para ingreso:</label>
+
+                                        <validation-provider name="Disponibilidad de camas para ingreso"
+                                            vid="disponibilidad_camas_ingreso" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="disponibilidad_camas_ingreso" type="number"
+                                                v-model.lazy="datos.movimiento_hospitalario.disponibilidad_camas_ingreso"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Disponibilidad de camas para graves:</label>
+
+                                        <validation-provider name="Disponibilidad de camas para graves"
+                                            vid="disponibilidad_camas_graves" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="disponibilidad_camas_graves" type="number"
+                                                v-model.lazy="datos.movimiento_hospitalario.disponibilidad_camas_graves"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Disponibilidad de camas para sospechosos:</label>
+
+                                        <validation-provider name="Disponibilidad de camas para sospechosos"
+                                            vid="disponibilidad_camas_sospechosos" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="disponibilidad_camas_sospechosos" type="number"
+                                                v-model.lazy="datos.movimiento_hospitalario.disponibilidad_camas_sospechosos"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Disponibilidad de camas para contactos:</label>
+
+                                        <validation-provider name="Disponibilidad de camas para contactos"
+                                            vid="disponibilidad_camas_contactos" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="disponibilidad_camas_contactos" type="number"
+                                                v-model.lazy="datos.movimiento_hospitalario.disponibilidad_camas_contactos"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                    </validation-observer>
+                </div>
+
+            </div>
+
+
+            <!--Botones de wizard-->
+            <div class="col-md-12 text-right mt-4">
+                <button class="btn btn-danger" v-show="opcion > 1" @click="decrementarOpcion()">Atrás</button>
+
+                <button class="btn btn-primary" @click="incrementarOpcion()">Siguiente</button>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

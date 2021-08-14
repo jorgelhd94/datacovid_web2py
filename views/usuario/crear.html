@@ -1,0 +1,114 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+<style>
+  .no_display{
+    display: none!important;
+  }
+
+  .select2-container{
+    width: 100%!important;
+  }
+
+</style>
+{{end head}}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="mb-3">
+        {{=A(SPAN(I(_class= "fa fa-list"), ' Administrar'),_href=URL('usuario', 'administrar',args=[]), _class='btn btn-success')}}
+    </div>
+
+    <div id="container">
+      <div class="pd-20 card-box mb-30">
+        <div class="clearfix">
+            <h4 class="text-blue h4">Crear usuario</h4>
+        </div>
+
+        <div class="mt-4">
+          {{=form.custom.begin}}
+          
+          <div class="row">
+            <div class="col-sm-6">
+                {{=form.custom.label.first_name}} <span class="error">*</span>
+                <div class="mb-2">{{=form.custom.widget.first_name}}</div>
+            </div>
+
+            <div class="col-sm-6">
+                {{=form.custom.label.last_name}} <span class="error">*</span>
+                <div class="mb-2">{{=form.custom.widget.last_name}}</div>
+            </div>
+
+            <div class="col-sm-6">
+                {{=form.custom.label.username}} <span class="error">*</span>
+                <div class="mb-2">{{=form.custom.widget.username}}</div>
+            </div>
+
+            <div class="col-sm-6">
+                {{=form.custom.label.email}} <span class="error">*</span>
+                <div class="mb-2">{{=form.custom.widget.email}}</div>
+            </div>
+
+            <div class="col-sm-6">
+              {{=form.custom.label.password}} <span class="error">*</span>
+              <div class="mb-2">{{=form.custom.widget.password}}</div>
+            </div>
+
+            <div class="col-sm-6">
+              {{=form.custom.label.repeat}} <span class="error">*</span>
+              <div class="mb-2">{{=form.custom.widget.repeat}}</div>
+            </div>
+
+            <div class="col-md-12">
+              <hr>
+            </div>
+
+            <div class="col-sm-6">
+              {{=form.custom.label.rol}} <span class="error">*</span>
+              <div class="mb-2">{{=form.custom.widget.rol}}</div>
+            </div>
+
+            <div class="col-sm-6 no_display" id="provincia">
+              {{=form.custom.label.provincia}} <span class="error">*</span>
+              <div class="mb-2">{{=form.custom.widget.provincia}}</div>
+            </div>
+          
+          </div>
+  
+          <br>
+          {{=form.custom.submit}}
+          {{=form.custom.end}}
+          </div>
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+{{block page_js}}
+<script>
+
+    $('#no_table_provincia').select2();
+
+    function cambiar_display() {
+      const item = $("#no_table_rol").val();
+      if (item == 2) {
+        $("#provincia").removeClass("no_display");
+      } else {
+        $("#provincia").addClass("no_display");
+      }
+    }
+    
+    cambiar_display();
+
+    //{{if form.errors.provincia:}}
+       $("#provincia").removeClass("no_display");
+    //{{pass}}
+    
+    $("#no_table_rol").change(function () {
+      cambiar_display();
+    });  
+</script>
+{{end page_js}}
+

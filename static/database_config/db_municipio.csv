@@ -1,0 +1,171 @@
+TABLE municipio
+municipio.id,municipio.nombre,municipio.idprovincia
+1,Consolación de Sur,1
+2,Guanes,1
+3,Las Palmas,1
+4,Los Palacios,1
+5,Mantua,1
+6,Minas de Matahambre,1
+7,Pinar del Río,1
+8,San Juan y Martínez,1
+9,San Luis,1
+10,Sandino,1
+11,Viñales,1
+12,Alquízar,2
+13,Artemisa,2
+14,Bahía Honda,2
+15,Bauta,2
+16,Caimito,2
+17,Candelaria,2
+18,Guanajay,2
+19,Güira de Melena,2
+20,Mariel,2
+21,San Antonio de los Baños,2
+22,San Cristóbal,2
+23,Arroyo Naranjo,3
+24,Boyeros,3
+25,Centro Habana,3
+26,Cerro,3
+27,Cotorro,3
+28,Diez de Octubre,3
+29,Guanabacoa,3
+30,La Habana del Este,3
+31,Habana Vieja,3
+32,La Lisa,3
+33,Marianao,3
+34,Playa,3
+35,Plaza de la Revolución,3
+36,Regla,3
+37,San Miguel del Padrón,3
+38,Batabanó,4
+39,Bejucal,4
+40,Güines,4
+41,Jaruco,4
+42,Madruga,4
+43,Melena del Sur,4
+44,Nueva Paz,4
+45,Quivicán,4
+46,San José de las Lajas,4
+47,San Nicolás,4
+48,Santa Cruz del Norte,4
+49,Calimete,5
+50,Cárdenas,5
+51,Ciénaga de Zapata,5
+52,Colón,5
+53,Jagüey Grande,5
+54,Jovellanos,5
+55,Limonar,5
+56,Los Arabos,5
+57,Martí,5
+58,Matanzas,5
+59,Pedro Betancourt,5
+60,Perico,5
+61,Unión de Reyes,5
+62,Abreus,6
+63,Aguada de Pasajeros,6
+64,Cienfuegos,6
+65,Cruces,6
+66,Cumanayagua,6
+67,Lajas,6
+68,Palmira,6
+69,Rodas,6
+70,Caibarién,7
+71,Camajuaní,7
+72,Cifuentes,7
+73,Corralillo,7
+74,Encrucijada,7
+75,Manicaragua,7
+76,Placetas,7
+77,Quemado de Güines,7
+78,Ranchuelo,7
+79,San Juan de los Remedios,7
+80,Sagua la Grande,7
+81,Santa Clara,7
+82,Santo Domingo,7
+83,Cabaiguán,8
+84,Fomento,8
+85,Jatibonico,8
+86,La Sierpe,8
+87,Sancti Spíritus,8
+88,Taguasco,8
+89,Trinidad,8
+90,Yaguajay,8
+91,Baraguá,9
+92,Bolivia,9
+93,Chambas,9
+94,Ciego de Ávila,9
+95,Ciro Redondo,9
+96,Florencia,9
+97,Majagua,9
+98,Morón,9
+99,Primero de Enero,9
+100,Venezuela,9
+101,Camagüey,10
+102,Carlos M. De Céspedes,10
+103,Esmeralda,10
+104,Florida,10
+105,Guáimaro,10
+106,Jimaguayú,10
+107,Minas,10
+108,Najasa,10
+109,Nuevitas,10
+110,Santa Cruz del Sur,10
+111,Sibanicú,10
+112,Sierra de Cubitas,10
+113,Vertientes,10
+114,Amancio,11
+115,Colombia,11
+116,Jesús Menéndez,11
+117,Jobabo,11
+118,Las Tunas,11
+119,Majibacoa,11
+120,Manatí,11
+121,Puerto Padre,11
+122,Antilla,12
+123,Báguanos,12
+124,Banes,12
+125,Cacocum,12
+126,Calixto García,12
+127,Cueto,12
+128,Frank País,12
+129,Gibara,12
+130,Holguín,12
+131,Mayarí,12
+132,Moa,12
+133,Rafael Freyre,12
+134,Sagua de Tánamo,12
+135,Urbano Noris,12
+136,Bartolomé Masó,13
+137,Bayamo,13
+138,Buey Arriba,13
+139,Campechuela,13
+140,Cauto Cristo,13
+141,Guisa,13
+142,Jiguaní,13
+143,Manzanillo,13
+144,Media Luna,13
+145,Niquero,13
+146,Pilón,13
+147,Río Cauto,13
+148,Yara,13
+149,Contramaestre,14
+150,Guamá,14
+151,Mella,14
+152,Palma Soriano,14
+153,San Luis,14
+154,Santiago de Cuba,14
+155,Segundo Frente,14
+156,Songo-La Maya,14
+157,Tercer Frente,14
+158,Baracoa,15
+159,Caimanera,15
+160,El Salvador,15
+161,Guantánamo,15
+162,Imías,15
+163,Maisí,15
+164,Manuel Tames,15
+165,Niceto Pérez,15
+166,San Antonio del Sur,15
+167,Yateras,15
+168,Isla de la Juventud,16
+END

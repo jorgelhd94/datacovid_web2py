@@ -1,0 +1,57 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+<style>
+    .details li, .details li span {
+        font-size: 18px!important;
+    }
+
+    .details li span{
+        display: inline-block!important;
+        font-weight: bold!important;
+    }
+</style>
+{{end head}}
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="container">
+            <div class="pd-20 card-box mb-30 profile-info">
+
+                <div class="clearfix" style="margin-bottom: 20px!important;">
+                    <h4 class="text-blue h4">Perfil</h4>
+                </div>
+                <ul class="details">
+                    <li>
+                        <span>Nombre completo:</span>
+                        {{=usuario.first_name + " " + usuario.last_name}}
+                    </li>
+                    <li>
+                        <span>Usuario:</span>
+                        {{=usuario.username}}
+                    </li>
+                    <li>
+                        <span>Correo:</span>
+                        {{=usuario.email}}
+                    </li>
+                    <li>
+                        <span>Rol:</span>
+                        {{=rol}}
+                    </li>
+                    <li>
+                        <span>Provincia:</span>
+                        {{=provincia}}
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{{block page_js}}
+
+{{end page_js}}

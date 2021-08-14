@@ -1,0 +1,35 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+<style>
+    .card-box h6 {
+        margin-bottom: 10px;
+    }
+</style>
+{{end head}}
+
+<a href="{{=URL('ubicacion', 'administrar')}}" class=" mb-10 btn btn-primary"> <span><i
+            class="fa fa-list"></i></span>
+    Administrar</a>
+
+<div class="row">
+    <div class="col-md-12 mb-30">
+        <div class="pd-20 card-box">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="h4 text-blue mb-20">Detalles</h5>
+                </div>
+                <div class="col-md-6 text-right">
+                    
+                    <a href="{{=URL('ubicacion', 'editar', args=ubicacion.id)}}" title="Editar"
+                        class=" mb-10 btn btn-success"> <span><i class="fa fa-pencil"></i></span>
+                    </a>
+                </div>
+            </div>
+
+            <h6>Nombre: {{=ubicacion.nombre}}</h6>
+            <h6>Municipio: {{=ubicacion.idmunicipio.nombre}}</h6>
+            
+        </div>
+    </div>
+</div>

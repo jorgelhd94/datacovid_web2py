@@ -1,0 +1,630 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+<style>
+    .pd-20 h6 {
+        margin-bottom: 10px;
+    }
+</style>
+{{end head}}
+
+<a href="{{=URL('reporte', 'administrar')}}" class=" mb-10 btn btn-primary"> <span><i class="fa fa-list"></i></span>
+    Administrar</a>
+
+<div class="row">
+    <div class="col-md-12 mb-30">
+        <div class="pd-20 card-box">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="h4 text-blue mb-20">Detalles</h5>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="{{=URL('reporte', 'editar', args=reporte.id)}}" class=" mb-10 btn btn-success"> <span><i
+                                class="fa fa-pencil"></i></span>
+                    </a>
+                    <a target="_blank" href="{{=URL('informe', 'redirigir_pdf', args=reporte.id)}}" class=" mb-10 btn btn-primary">
+                        <span><i class="fa fa-print"></i></span>
+                    </a>
+                </div>
+            </div>
+
+            <h5 class="h5 text-blue mb-20">Reporte del {{=reporte.fecha.strftime("%d/%m/%Y")}}</h5>
+            <div class="tab">
+                <div class="row clearfix">
+                    <div class="col-md-3 col-sm-12">
+                        <ul class="nav flex-column vtabs nav-tabs customtab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#confirmados" role="tab"
+                                    aria-selected="true">Confirmados</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#activos" role="tab"
+                                    aria-selected="false">Activos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#fallecidos_criticos_graves" role="tab"
+                                    aria-selected="false">Fallecidos, críticos y graves</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#sospechosos" role="tab"
+                                    aria-selected="false">Sospechosos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#casos_ira" role="tab"
+                                    aria-selected="false">Casos IRA</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#atencion_ira" role="tab"
+                                    aria-selected="false">Atención IRA</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#pesquisa_activa" role="tab"
+                                    aria-selected="false">Pesquisa activa</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#eventos" role="tab"
+                                    aria-selected="false">Eventos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#controles_foco" role="tab"
+                                    aria-selected="false">Controles de foco</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#movimiento_hospitalario" role="tab"
+                                    aria-selected="false">Movimiento Hospitalario</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#vigilancia" role="tab"
+                                    aria-selected="false">Vigilancia Microbiológica</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#inspeccion_sanitaria_estatal" role="tab"
+                                    aria-selected="false">Inspección Sanitaria Estatal</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-9 col-sm-12">
+                        <div class="tab-content">
+                            <!-- Confirmados -->
+                            <div class="tab-pane fade show active" id="confirmados" role="tabpanel">
+                                <div class="pd-20">
+                                    <h5>Casos confirmados</h5>
+                                    <br>
+
+                                    <h6> Total: {{=confirmados.total}} </h6>
+
+                                    <h6>
+                                        Sin fuente de infección precisada: {{=confirmados.sin_fid}}
+                                    </h6>
+
+                                    <h6>Sintomáticos: {{=confirmados.sintomaticos}}</h6>
+
+                                    <h6>Asintomáticos: {{=confirmados.asintomaticos}}</h6>
+
+                                    <h6>Cubanos: {{=confirmados.cubanos}}</h6>
+
+                                    <h6>Extranjeros: {{=confirmados.extranjeros}}</h6>
+
+                                    <h6>Masculinos: {{=confirmados.masculinos}}</h6>
+
+                                    <h6>Femeninos: {{=confirmados.femeninos}}</h6>
+
+                                    <h6>Contactos: {{=confirmados.contactos}}</h6>
+
+                                    <h6>Promedio de contactos por caso: {{=confirmados.promedio_contactos_por_caso or 0}}
+                                    </h6>
+
+                                    <h6>Casos asilados: {{=confirmados.casos_aislados}}</h6>
+
+                                    <h6>Casos en la comunidad: {{=confirmados.casos_comunidad}}</h6>
+
+                                    <h6>Casos en vigilancia por el APS: {{=confirmados.casos_vigilancia_aps}}</h6>
+                                </div>
+
+                                <div class="pd-20">
+                                    <h5>Por municipios</h5>
+                                    <br>
+                                    {{if confirmados_municipios:}}
+                                    <table class="data-table table stripe hover nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="table-plus">Municipio</th>
+                                                <th>Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{for i in confirmados_municipios:}}
+                                            <tr>
+                                                <td class="table-plus">{{=i.idmunicipio.nombre}}</td>
+                                                <td>{{=i.cantidad}}</td>
+                                            </tr>
+                                            {{pass}}
+                                        </tbody>
+                                    </table>
+                                    {{else:}}
+                                    <h6>No se encuentran resultados</h6>
+                                    {{pass}}
+                                </div>
+
+                                <div class="pd-20">
+                                    <h5>Por grupo de edades</h5>
+                                    <br>
+                                    {{if confirmados_edades:}}
+                                    <table class="data-table table stripe hover nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="table-plus">Grupo de edades</th>
+                                                <th>Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{for i in confirmados_edades:}}
+                                            <tr>
+                                                <td class="table-plus">{{=i.idgrupo_edades.grupo}}</td>
+                                                <td>{{=i.cantidad}}</td>
+                                            </tr>
+                                            {{pass}}
+                                        </tbody>
+                                    </table>
+                                    {{else:}}
+                                    <h6>No se encuentran resultados</h6>
+                                    {{pass}}
+                                </div>
+                            </div>
+
+                            <!-- Activos -->
+                            <div class="tab-pane fade" id="activos" role="tabpanel">
+                                <div class="pd-20">
+                                    <h5>Casos activos</h5>
+                                    <br>
+
+                                    <h6> Total: {{=activos.total}} </h6>
+                                </div>
+
+                                <div class="pd-20">
+                                    <h5>Por ubicación</h5>
+                                    <br>
+                                    {{if activos_ubicacion:}}
+                                    <table class="data-table table stripe hover nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="table-plus">Ubicación</th>
+                                                <th>Municipio</th>
+                                                <th>Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{for i in activos_ubicacion:}}
+                                            <tr>
+                                                <td class="table-plus">{{=i.idubicacion.nombre}}</td>
+                                                <td>{{=i.idubicacion.idmunicipio.nombre}}</td>
+                                                <td>{{=i.cantidad}}</td>
+                                            </tr>
+                                            {{pass}}
+                                        </tbody>
+                                    </table>
+                                    {{else:}}
+                                    <h6>No se encuentran resultados</h6>
+                                    {{pass}}
+                                </div>
+
+                            </div>
+
+                            <!-- Fallecidos, críticos y graves -->
+                            <div class="tab-pane fade" id="fallecidos_criticos_graves" role="tabpanel">
+                                <div class="pd-20">
+                                    <h5>Fallecidos, críticos y graves</h5>
+                                    <br>
+
+                                    <h6> Fallecidos por Covid: {{=fallecidos_criticos_graves.covid_fallecidos}} </h6>
+
+                                    <h6> Críticos por Covid: {{=fallecidos_criticos_graves.covid_criticos}} </h6>
+
+                                    <h6> Graves por Covid: {{=fallecidos_criticos_graves.covid_graves}} </h6>
+
+                                    <h6> Graves por IRA: {{=fallecidos_criticos_graves.ira_graves}} </h6>
+
+                                    <h6> Graves por IRA pendientes de PCR:
+                                        {{=fallecidos_criticos_graves.ira_graves_pendiente_pcr}} </h6>
+
+                                    <h6> Altas clínicas a pacientes de Covid:
+                                        {{=fallecidos_criticos_graves.altas_clinicas_covid}} </h6>
+
+                                    <h6> Altas clínicas a Sospechosos: {{=fallecidos_criticos_graves.altas_sospechosos}}
+                                    </h6>
+
+                                    <h6> Altas clínicas a Contactos: {{=fallecidos_criticos_graves.altas_contactos  }}
+                                    </h6>
+                                </div>
+
+
+                            </div>
+
+                            <!-- Sospechosos -->
+                            <div class="tab-pane fade" id="sospechosos" role="tabpanel">
+                                <div class="pd-20">
+                                    <h5>Sospechosos</h5>
+                                    <br>
+
+                                    <h6> Ingresados: {{=sospechosos.ingresados}} </h6>
+
+                                    <h6> En la comunidad: {{=sospechosos.comunidad}} </h6>
+
+                                    <h6> Identificados en Hospitales: {{=sospechosos.iden_hospital}} </h6>
+
+                                    <h6> Identificados en Policlínicos: {{=sospechosos.iden_policlinico}} </h6>
+
+                                    <h6> Identificados en Consultorios: {{=sospechosos.iden_consultorio}} </h6>
+
+                                    <h6> Identificados en Pesquisas: {{=sospechosos.iden_pesquisa}} </h6>
+
+                                </div>
+
+
+                            </div>
+
+                            <!-- Casos IRA -->
+                            <div class="tab-pane fade" id="casos_ira" role="tabpanel">
+                                <div class="pd-20">
+                                    <h5>Casos de IRA</h5>
+                                    <br>
+
+                                    <h6> Ingresados: {{=casos_ira.ingresados}} </h6>
+
+                                    <h6> En la comunidad: {{=casos_ira.comunidad}} </h6>
+
+                                    <h6> Identificados en Hospitales: {{=casos_ira.iden_hospital}} </h6>
+
+                                    <h6> Identificados en Policlínicos: {{=casos_ira.iden_policlinico}} </h6>
+
+                                    <h6> Identificados en Consultorios: {{=casos_ira.iden_consultorio}} </h6>
+
+                                    <h6> Identificados en Pesquisas: {{=casos_ira.iden_pesquisa}} </h6>
+
+                                </div>
+
+
+                            </div>
+
+                            <!-- Atencion IRA -->
+                            <div class="tab-pane fade" id="atencion_ira" role="tabpanel">
+                                <div class="pd-20">
+                                    <h5>Atención a pacientes de IRA</h5>
+                                    <br>
+
+                                    <h6> Reportados en Hospitales: {{=atencion_ira.repor_hospital}} </h6>
+
+                                    <h6> Reportados en Policlínicos: {{=atencion_ira.repor_policlinico}} </h6>
+
+                                    <h6> Reportados en Consultorios: {{=atencion_ira.repor_consultorio}} </h6>
+
+                                </div>
+
+
+                            </div>
+
+                            <!-- Pesquisa Activa -->
+                            <div class="tab-pane fade" id="pesquisa_activa" role="tabpanel">
+                                <div class="pd-20">
+                                    <h5>Pesquisa activa</h5>
+                                    <br>
+
+                                    <h6> Porciento de población pesquisada: {{=pesquisa_activa.porciento_pesquisada}}
+                                    </h6>
+
+                                    <h6> Porciento de población a pesquisar: {{=pesquisa_activa.a_pesquisar}} </h6>
+
+                                    <h6> Presuntas IRA identificadas: {{=pesquisa_activa.presuntas_ira_identificadas}}
+                                    </h6>
+
+                                    <h6> Presuntas IRA atendidas: {{=pesquisa_activa.presuntas_ira_atendidas}} </h6>
+
+                                    <h6> Porciento del 0.01 pesquisado: {{=pesquisa_activa.porciento_001}} </h6>
+
+
+                                </div>
+
+
+                            </div>
+
+                            <!-- Eventos -->
+                            <div class="tab-pane fade" id="eventos" role="tabpanel">
+
+                                <div class="pd-20">
+                                    <h5>Eventos</h5>
+                                    <br>
+                                    {{if eventos:}}
+                                    <table class="data-table table stripe hover nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="table-plus">Nombre del evento</th>
+                                                <th>Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{for i in eventos:}}
+                                            <tr>
+                                                <td class="table-plus">{{=i.ideventos.nombre}}</td>
+                                                <td>{{=i.cantidad}}</td>
+                                            </tr>
+                                            {{pass}}
+                                        </tbody>
+                                    </table>
+                                    {{else:}}
+                                    <h6>No se encuentran resultados</h6>
+                                    {{pass}}
+                                </div>
+
+
+                            </div>
+
+                            <!-- Controles de foco -->
+                            <div class="tab-pane fade" id="controles_foco" role="tabpanel">
+
+                                <div class="pd-20">
+                                    <h5>Controles de foco</h5>
+                                    <br>
+                                    {{if controles_foco:}}
+                                    <table class="data-table table stripe hover nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="table-plus">Nombre del control de foco</th>
+                                                <th>Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{for i in controles_foco:}}
+                                            <tr>
+                                                <td class="table-plus">{{=i.idcontrol_foco.nombre}}</td>
+                                                <td>{{=i.cantidad}}</td>
+                                            </tr>
+                                            {{pass}}
+                                        </tbody>
+                                    </table>
+                                    {{else:}}
+                                    <h6>No se encuentran resultados</h6>
+                                    {{pass}}
+                                </div>
+
+
+                            </div>
+
+                            <!-- Movimiento Hospitalario -->
+                            <div class="tab-pane fade" id="movimiento_hospitalario" role="tabpanel">
+
+                                <div class="pd-20">
+                                    <h5>Movimiento Hospitalario</h5>
+                                    <br>
+
+                                    <h6> Ingresados: {{=movimiento_hospitalario.ingresados}} </h6>
+
+                                    <h6> Confirmados Ingresados: {{=movimiento_hospitalario.confirmados_ingresados}}
+                                    </h6>
+
+                                    <h6> Sospechosos Ingresados: {{=movimiento_hospitalario.sospechosos_ingresados}}
+                                    </h6>
+
+                                    <h6> Contactos Ingresados: {{=movimiento_hospitalario.contactos_ingresados}} </h6>
+
+                                    <h6> Disponibilidad de camas para Ingreso:
+                                        {{=movimiento_hospitalario.disponibilidad_camas_ingreso}} </h6>
+
+                                    <h6> Disponibilidad de camas para Graves:
+                                        {{=movimiento_hospitalario.disponibilidad_camas_graves}} </h6>
+
+                                    <h6> Disponibilidad de camas para Sospechosos:
+                                        {{=movimiento_hospitalario.disponibilidad_camas_sospechosos}} </h6>
+
+                                    <h6> Disponibilidad de camas para Contactos:
+                                        {{=movimiento_hospitalario.disponibilidad_camas_contactos}} </h6>
+
+
+                                </div>
+
+
+                            </div>
+
+                            <!-- Vigilancia -->
+                            <div class="tab-pane fade" id="vigilancia" role="tabpanel">
+
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="pd-20">
+                                            <h5>Vigilancia</h5>
+                                            <br>
+
+                                            <h6> Muestras tomadas: {{=vigilancia.muestras_tomadas}} </h6>
+
+                                            <h6> Muestras enviadas: {{=vigilancia.muestras_enviadas}} </h6>
+
+                                            <h6> Muestras eventos: {{=vigilancia.muestras_eventos}} </h6>
+
+                                            <h6> Muestras control de foco: {{=vigilancia.muestras_control_foco}} </h6>
+
+                                            <h6> Muestras acumuladas enviadas: {{=vigilancia.acumuladas_enviadas}} </h6>
+
+                                            <h6> Resultados positivos: {{=vigilancia.resultados_positivos}} </h6>
+
+                                            <h6> Resultados confirmatorios: {{=vigilancia.resultados_confirmatorios}}
+                                            </h6>
+
+                                            <h6> Resultados negativos: {{=vigilancia.resultados_negativos}} </h6>
+
+                                            <h6> Resultados evolutivos: {{=vigilancia.resultados_evolutivos}} </h6>
+
+                                            <h6> Resultados inhibidos: {{=vigilancia.resultados_inhibidos}} </h6>
+
+                                            <h6> Tiempo entre la toma de muestra y su salida hacia La Habana:
+                                                {{=vigilancia.tiempo_promedio_salida}}
+                                            </h6>
+
+                                            <h6> Tiempo promedio entre la toma de muestra y el resultado:
+                                                {{=vigilancia.tiempo_promedio_resultado}} </h6>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="pd-20">
+                                            <h5>Origen de las muestras</h5>
+                                            <br>
+                                            {{if origen_muestras:}}
+                                            <table class="data-table table stripe hover nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="table-plus">Origen</th>
+                                                        <th>Cantidad</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{for i in origen_muestras:}}
+                                                    <tr>
+                                                        <td class="table-plus">{{=i.idorigen.nombre}}</td>
+                                                        <td>{{=i.cantidad}}</td>
+                                                    </tr>
+                                                    {{pass}}
+                                                </tbody>
+                                            </table>
+                                            {{else:}}
+                                            <h6>No se encuentran resultados</h6>
+                                            {{pass}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pd-20">
+                                    <h5>Muestras pendientes</h5>
+                                    <br>
+
+                                    <h6> Con 2 días: {{=muestras_pendientes.con_2_dias}} </h6>
+
+                                    <h6> Con más de 3 días: {{=muestras_pendientes.con_mas_3_dias}} </h6>
+
+                                </div>
+
+
+                            </div>
+
+                            <!-- Inspección Sanitaria Estatal -->
+                            <div class="tab-pane fade" id="inspeccion_sanitaria_estatal" role="tabpanel">
+                                <div class="pd-20">
+                                    <h5>Inspección Sanitaria Estatal</h5>
+                                    <br>
+
+                                    <h6> Centros visitados: {{=inspeccion_sanitaria_estatal.centros_visitados}} </h6>
+
+                                    <h6> Centros inspeccionados:
+                                        {{=inspeccion_sanitaria_estatal.centros_inspeccionados}} </h6>
+
+                                    <h6> Inspectores que salieron:
+                                        {{=inspeccion_sanitaria_estatal.inspectores_salieron}} </h6>
+
+                                    <h6> Medidas impuestas: {{=inspeccion_sanitaria_estatal.medidas_impuestas}} </h6>
+
+                                </div>
+
+                                <div class="pd-20">
+                                    <h5>Municipios que no salieron a inspeccionar</h5>
+                                    <br>
+                                    {{if municipio_no_salieron:}}
+                                    <table class="data-table table stripe hover nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="table-plus">Municipio</th>
+                                                <!-- <th>Cantidad</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{for i in municipio_no_salieron:}}
+                                            <tr>
+                                                <td class="table-plus">{{=i.idmunicipio.nombre}}</td>
+                                            </tr>
+                                            {{pass}}
+                                        </tbody>
+                                    </table>
+                                    {{else:}}
+                                    <h6>No se encuentran resultados</h6>
+                                    {{pass}}
+                                </div>
+
+                                <div class="pd-20">
+                                    <h5>Municipios que no tomaron medidas</h5>
+                                    <br>
+                                    {{if municipio_no_medidas:}}
+                                    <table class="data-table table stripe hover nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="table-plus">Municipio</th>
+                                                <!-- <th>Cantidad</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{for i in municipio_no_medidas:}}
+                                            <tr>
+                                                <td class="table-plus">{{=i.idmunicipio.nombre}}</td>
+                                            </tr>
+                                            {{pass}}
+                                        </tbody>
+                                    </table>
+                                    {{else:}}
+                                    <h6>No se encuentran resultados</h6>
+                                    {{pass}}
+                                </div>
+
+                                <div class="pd-20">
+                                    <h5>Municipios que no tienen inspectores</h5>
+                                    <br>
+                                    {{if municipio_no_inspectores:}}
+                                    <table class="data-table table stripe hover nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="table-plus">Municipio</th>
+                                                <!-- <th>Cantidad</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{for i in municipio_no_inspectores:}}
+                                            <tr>
+                                                <td class="table-plus">{{=i.idmunicipio.nombre}}</td>
+                                            </tr>
+                                            {{pass}}
+                                        </tbody>
+                                    </table>
+                                    {{else:}}
+                                    <h6>No se encuentran resultados</h6>
+                                    {{pass}}
+                                </div>
+
+                                <div class="pd-20">
+                                    <h5>Municipios con mayor número de notificaciones</h5>
+                                    <br>
+                                    {{if municipio_mayor_notificaciones:}}
+                                    <table class="data-table table stripe hover nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="table-plus">Municipio</th>
+                                                <!-- <th>Cantidad</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{for i in municipio_mayor_notificaciones:}}
+                                            <tr>
+                                                <td class="table-plus">{{=i.idmunicipio.nombre}}</td>
+
+                                            </tr>
+                                            {{pass}}
+                                        </tbody>
+                                    </table>
+                                    {{else:}}
+                                    <h6>No se encuentran resultados</h6>
+                                    {{pass}}
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

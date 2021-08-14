@@ -1,0 +1,151 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+<link rel="stylesheet" type="text/css"
+    href="{{=URL('static/frontend', 'src/plugins/datatables/css/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" type="text/css"
+    href="{{=URL('static/frontend', 'src/plugins/datatables/css/responsive.bootstrap4.min.css')}}">
+{{end head}}
+
+<div class="pb-20">
+    <a href="{{=URL('origen', 'crear')}}" class="btn btn-success"> <span><i class="fa fa-plus"></i></span>
+        Nuevo orígen de muestra</a>
+</div>
+
+<!-- Simple Datatable start -->
+<div class="card-box mb-30">
+    <div class="pd-20">
+        <h4 class="text-blue h4">Administrar orígenes de muestras</h4>
+    </div>
+
+    <div class="pb-20">
+        <table class="data-table table stripe hover nowrap">
+            <thead>
+                <tr>
+                    <th class="table-plus">Nombre</th>
+                    <th>Municipio</th>
+                    <th class="datatable-nosort">Administrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{for i in origen:}}
+                <tr>
+                    <td class="table-plus">{{=i.nombre}}</td>
+                    <td>{{=i.idmunicipio.nombre if i.idmunicipio else ""}}</td>
+                    <td>
+                        <div class="dropdown">
+                            <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
+                                role="button" data-toggle="dropdown">
+                                <i class="dw dw-more"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                                <a class="dropdown-item" href="{{=URL('origen', 'detalles', args=i.id)}}"><i
+                                        class="dw dw-eye"></i> Detalles</a>
+                                <a class="dropdown-item" href="{{=URL('origen', 'editar', args=i.id)}}"><i
+                                        class="dw dw-edit2"></i> Editar</a>
+                                <a class="dropdown-item" href="#" onclick="eliminar('{{=i.id}}')"><i
+                                        class="dw dw-delete-3"></i> Eliminar</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {{pass}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Simple Datatable End -->
+
+
+
+{{block page_js}}
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/responsive.bootstrap4.min.js')}}"></script>
+<!-- buttons for Export datatable -->
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/buttons.print.min.js')}}"></script>
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/buttons.html5.min.js')}}"></script>
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/buttons.flash.min.js')}}"></script>
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/pdfmake.min.js')}}"></script>
+<script src="{{=URL('static/frontend', 'src/plugins/datatables/js/vfs_fonts.js')}}"></script>
+
+<!-- DateTime -->
+<script src="{{=URL('static','vendor/moment/moment.js')}}"></script>
+<script src="{{=URL('static','vendor/moment/moment.dataTables.js')}}"></script>
+
+<!-- Datatable Setting js -->
+<!-- <script src="{{=URL('static/frontend', 'vendors/scripts/datatable-setting.js')}}"></script> -->
+
+<script>
+    function eliminar(id) {
+        swal({
+            title: "¿Está seguro de eliminar?",
+            text: "El origen será eliminado completamente del sistema.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var url = "{{=URL('origen','eliminar')}}";
+                    location.href = url + "/" + id;
+                }
+                else {
+                    // event.preventDefault();
+                    //swal("Cancelled !!", "Hey, your imaginary file is safe !!", "error");
+                }
+            });
+    }
+</script>
+
+<script>
+    $('document').ready(function () {
+        $.fn.dataTable.moment('DD/MM/YYYY');
+
+        $('.data-table').DataTable({
+            scrollCollapse: true,
+            autoWidth: false,
+            responsive: true,
+            columnDefs: [{
+                targets: "datatable-nosort",
+                orderable: false,
+            }],
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            language: {
+                "decimal": "",
+                "emptyTable": "{{=T('No hay información')}}",
+                "info": "{{=T('Mostrando _START_ a _END_ de _TOTAL_ Entradas')}}",
+                "infoEmpty": "{{=T('Mostrando 0 to 0 of 0 Entradas')}}",
+                "infoFiltered": "{{=T('(Filtrado de _MAX_ total entradas)')}}",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "{{=T('Mostrar _MENU_ Entradas')}}",
+                "loadingRecords": "{{=T('Cargando...')}}",
+                "processing": "{{=T('Procesando...')}}",
+                "search": "{{=T('Buscar:')}}",
+                "zeroRecords": "{{=T('Sin resultados encontrados')}}",
+                "paginate": {
+                    "first": "{{=T('Primero')}}",
+                    "last": "{{=T('Último')}}",
+                    "next": "{{=T('Siguiente')}}",
+                    "previous": "{{=T('Anterior')}}"
+                },
+                "buttons": {
+                    "copy": "Copiar",
+                    "print": "Imprimir",
+                    "colvis": "Columnas visibles"
+                }
+            }
+        });
+
+    });
+</script>
+
+{{end page_js}}

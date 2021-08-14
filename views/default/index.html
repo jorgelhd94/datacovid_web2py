@@ -1,0 +1,197 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+<style>
+  .icono {
+    font-size: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+  }
+
+  .h4,
+  .h5,
+  .page-header h4 {
+    font-size: 20px !important;
+  }
+
+  .font-20 {
+    font-size: 15px;
+  }
+</style>
+{{end head}}
+
+<div class="card-box pd-20 height-100-p mb-30">
+  <div class="row align-items-center">
+    <div class="col-md-4">
+      <img src="{{=URL('static/images', 'doctores.svg')}}" alt="">
+    </div>
+    <div class="col-md-8">
+      <h4 class="font-20 weight-400 mb-10 ">
+        {{if auth.has_membership("Administrador"):}}
+        Bienvenido a <div class="weight-600 font-30 text-blue text-capitalize">InfoCovid</div>
+        {{else:}}
+        Bienvenido a <div class="weight-600 font-30 text-blue text-capitalize">InfoCovid - {{=provincia.nombre}}</div>
+        {{pass}}
+      </h4>
+      <p class="font-18 max-width-600">Un sistema informático para la gestión de reportes sobre la COVID-19 creado
+        por el area de aplcaciones informaticas UEB EICMA Ciego de Avila en colaboracion con el grupo Alta Gama. Puede comenzar
+        gestionando sus reportes
+        o generando informes.
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 mb-30">
+    <div class="card-box height-100-p widget-style1">
+      <div class="d-flex flex-wrap align-items-center">
+        <div class="progress-data">
+          <div class="icono"><i class="dw dw-user"></i></div>
+        </div>
+        <div class="widget-data">
+          <div class="h4 mb-0">{{=confirmados}}</div>
+          <div class="weight-600 font-20">Confirmados Hoy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 mb-30">
+    <div class="card-box height-100-p widget-style1">
+      <div class="d-flex flex-wrap align-items-center">
+        <div class="progress-data">
+          <div class="icono"><i class="dw dw-hospital"></i></div>
+        </div>
+        <div class="widget-data">
+          <div class="h4 mb-0">{{=activos}}</div>
+          <div class="weight-600 font-20">Activos Hoy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 mb-30">
+    <div class="card-box height-100-p widget-style1">
+      <div class="d-flex flex-wrap align-items-center">
+        <div class="progress-data">
+          <div class="icono"><i class="dw dw-map"></i></div>
+        </div>
+        <div class="widget-data">
+          <div class="h4 mb-0">{{=eventos}}</div>
+          <div class="weight-600 font-20">Eventos abiertos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 mb-30">
+    <div class="card-box height-100-p widget-style1">
+      <div class="d-flex flex-wrap align-items-center">
+        <div class="progress-data">
+          <div class="icono"><i class="dw dw-map2"></i></div>
+        </div>
+        <div class="widget-data">
+          <div class="h4 mb-0">{{=cf}}</div>
+          <div class="weight-600 font-20">Controles de foco abiertos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="bg-white pd-20 card-box mb-30">
+      {{if auth.has_membership("Administrador"):}}
+      <h4 class="h4 text-blue">Evolución de la Covid-19 en el país</h4>
+      {{else:}}
+      <h4 class="h4 text-blue">Evolución de la Covid-19 en {{=provincia.nombre}}</h4>
+      {{pass}}
+      <div id="chart1"></div>
+    </div>
+
+  </div>
+
+</div>
+
+
+{{block page_js}}
+<script src="{{=URL('static/frontend', 'src/plugins/apexcharts/apexcharts.min.js')}}"></script>
+
+<script>
+
+  let data = [];
+  let categories = [];
+
+  // Esto es codigo python q funciona
+  // debido al sistema de plantillas de web2py
+
+  // {{for i in reportes_list:}}
+  data.push(parseInt("{{=db(db.confirmados.idreporte == i.id).select().first().total}}"));
+  categories.push('{{=i.fecha.strftime("%m/%d/%Y")}}');
+  // {{pass}}
+
+
+  var options = {
+    series: [{
+      name: 'Casos confirmados',
+      data: data
+    }],
+    chart: {
+      height: 450,
+      type: 'line',
+      toolbar: {
+        show: true,
+      }
+    },
+    grid: {
+      show: true,
+      padding: {
+        left: 0,
+        right: 0
+      }
+    },
+    stroke: {
+      width: 7,
+      curve: 'smooth'
+    },
+    xaxis: {
+      type: 'datetime',
+      categories: categories,
+    },
+    title: {
+      text: 'Casos confirmados',
+      align: 'left',
+      style: {
+        fontSize: "16px",
+        color: '#666'
+      }
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shade: 'dark',
+        gradientToColors: ['#1b00ff'],
+        shadeIntensity: 1,
+        type: 'horizontal',
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 100, 100, 100]
+      },
+    },
+    markers: {
+      size: 4,
+      colors: ["#FFA41B"],
+      strokeColors: "#fff",
+      strokeWidth: 2,
+      hover: {
+        size: 7,
+      }
+    },
+    yaxis: {
+      min: 0,
+      max: 200,
+      title: {
+        text: 'Casos confirmados',
+      },
+    }
+  };
+  var chart = new ApexCharts(document.querySelector("#chart1"), options);
+  chart.render();
+</script>
+{{end page_js}}

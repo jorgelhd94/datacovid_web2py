@@ -1,0 +1,118 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+
+<link rel="stylesheet" href="{{=URL('static/frontend', 'vue/jquery.steps.css')}}">
+{{end head}}
+
+<a href="{{=URL('reporte', 'administrar')}}" class=" mb-10 btn btn-primary"> <span><i class="fa fa-list"></i></span>
+    Administrar</a>
+
+<a href="{{=URL('reporte', 'detalles', args=reporte.id)}}" class=" mb-10 btn btn-info"> <span><i
+            class="fa fa-eye"></i></span>
+            Detalles
+</a>
+
+<div id="container">
+    <div class="pd-20 card-box mb-30">
+        <div class="clearfix">
+            <h4 class="text-blue h4">Editar reporte</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Fecha de reporte:</label>
+                        <input id="fecha_input" type="text" class="form-control date-picker"
+                            data-date-format="dd/mm/yyyy" placeholder="Seleccionar fecha" value="{{=fecha_reporte}}">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="progress" style="height: 25px;">
+                <div class="progress-bar bg-info" role="progressbar" :style="{'width': porcientoMenu + '%'}"
+                    aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">[[porcientoMenu]]%</div>
+            </div>
+        </div>
+
+        <casos v-show="parseInt(opcion) < 5" :opcion="opcion" :check-opciones="checkOpciones" :provincias="provincias"
+            :municipios="municipios" :municipios_ubicaciones="municipios_ubicaciones" :ubicaciones="ubicaciones"
+            :grupo_edades="grupo_edades" :datos="datos" @incrementar-opcion="incrementarOpcion()"
+            @decrementar-opcion="decrementarOpcion()"></casos>
+
+        <sospecha v-show="parseInt(opcion) >= 5 && parseInt(opcion) < 9" :opcion="opcion"
+            :check-opciones="checkOpciones" :datos="datos" @incrementar-opcion="incrementarOpcion()"
+            @decrementar-opcion="decrementarOpcion()"></sospecha>
+
+        <eventos v-show="parseInt(opcion) >= 9 && parseInt(opcion) < 13" :opcion="opcion"
+            :check-opciones="checkOpciones" :eventos="eventos" :controles_foco="controles_foco" :datos="datos"
+            @incrementar-opcion="incrementarOpcion()" @decrementar-opcion="decrementarOpcion()"></eventos>
+
+        <vigilancia v-show="parseInt(opcion) >= 13 && parseInt(opcion) < 17" :opcion="opcion"
+            :check-opciones="checkOpciones" :origenes="origenes" :datos="datos"
+            @incrementar-opcion="incrementarOpcion()" @decrementar-opcion="decrementarOpcion()"></vigilancia>
+
+        <inspeccion v-show="parseInt(opcion) >= 17 && parseInt(opcion) < 21" :opcion="opcion"
+            :check-opciones="checkOpciones" :provincias="provincias" :municipios="municipios" :datos="datos"
+            :btn-loading="btnLoading" @incrementar-opcion="incrementarOpcion()"
+            @decrementar-opcion="decrementarOpcion()" @finalizar="finalizar()"></inspeccion>
+
+        <!-- <div class="row">
+            <div class="col-md-12 text-right">
+                <button class="btn btn-info mt-4" @click="finalizar()">Finalizar</button>
+            </div>
+        </div> -->
+
+
+    </div>
+
+</div>
+
+{{block page_js}}
+<!--VUEJS-->
+<script src="{{=URL('static','vendor/axios/axios.min.js')}}"></script>
+<script src="{{=URL('static','vendor/vue/develop/vue.js')}}"></script>
+<script src="{{=URL('static','vendor/veevalidate/vee-validate.min.js')}}"></script>
+<script src="{{=URL('static','vendor/veevalidate/rules.umd.min.js')}}"></script>
+
+<!--Const Datos y API URL-->
+<script>
+    const const_fecha_reporte = "{{=fecha_reporte}}";
+    let let_idreporte = "{{=reporte.id}}";
+
+    // API URLS
+    const api_url_provincia = "{{=URL('provincia', 'api')}}";
+    const api_url_grupo_edades = "{{=URL('grupo_edades', 'api')}}";
+    const api_url_ubicacion = "{{=URL('ubicacion', 'api')}}";
+    const api_url_eventos = "{{=URL('evento', 'api')}}";
+    const api_url_controles_foco = "{{=URL('control_foco', 'api')}}";
+    const api_url_origen = "{{=URL('origen', 'api')}}";
+
+    const api_url_editar = "{{=URL('reporte', 'api_editar')}}";
+    const api_url_verificar_fecha = "{{=URL('reporte', 'verificar_fecha')}}";
+
+    const const_redirigir = "{{=URL('reporte', 'detalles')}}";
+</script>
+
+<!--URL Componentes-->
+<script>
+    const url_casosComponent = '{{=URL("static/frontend", "vue/components/wizard/panel1CasosComponent.html")}}';
+    const url_sospechaComponent = '{{=URL("static/frontend", "vue/components/wizard/panel2SospechaComponent.html")}}';
+    const url_eventosComponent = '{{=URL("static/frontend", "vue/components/wizard/panel3EventosComponent.html")}}';
+    const url_vigilanciaComponent = '{{=URL("static/frontend", "vue/components/wizard/panel4VigilanciaComponent.html")}}';
+    const url_inspeccionComponent = '{{=URL("static/frontend", "vue/components/wizard/panel5InspeccionComponent.html")}}';
+</script>
+
+<!--Componentes-->
+<script src="{{=URL('static/frontend', 'vue/utils.js')}}"></script>
+<script src="{{=URL('static/frontend', 'vue/components/wizard/panel1CasosComponent.js')}}"></script>
+<script src="{{=URL('static/frontend', 'vue/components/wizard/panel2SospechaComponent.js')}}"></script>
+<script src="{{=URL('static/frontend', 'vue/components/wizard/panel3EventosComponent.js')}}"></script>
+<script src="{{=URL('static/frontend', 'vue/components/wizard/panel4VigilanciaComponent.js')}}"></script>
+<script src="{{=URL('static/frontend', 'vue/components/wizard/panel5InspeccionComponent.js')}}"></script>
+
+<!--VUE Instance-->
+<script src="{{=URL('static/frontend', 'vue/reporte/editar.js')}}"></script>
+
+
+
+{{end page_js}}

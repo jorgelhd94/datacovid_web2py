@@ -1,0 +1,49 @@
+{{extend 'layout_login.html'}}
+
+<div class="login-box bg-white box-shadow border-radius-10">
+    <div class="login-title text-center">
+        <img src="{{=URL('static', 'images/icon_white.png')}}" alt="">
+
+        <h2 class="text-center text-primary pt-10">Acceder</h2>
+
+    </div>
+    {{=form.custom.begin}}
+    {{if session.error:}}
+    <div class="text-center">
+        <p class="text-danger">Usuario y/o contraseña incorrectos</p>
+    </div>
+    {{pass}}
+    <div class="input-group custom">
+        {{=form.custom.widget.username}}
+        <div class="input-group-append custom">
+            <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
+        </div>
+    </div>
+    <div class="input-group custom">
+        {{=form.custom.widget.password}}
+        <div class="input-group-append custom">
+            <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="input-group mb-0 pt-20">
+                <!--
+                        use code for form submit
+                        <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
+                    -->
+                <button type="submit" class="btn btn-primary btn-lg btn-block" href="index.html">Iniciar sesión</button>
+            </div>
+        </div>
+    </div>
+    {{=form.custom.end}}
+</div>
+
+{{block page_js}}
+<script>
+    // Custom Script
+    document.getElementById('auth_user_username').placeholder = 'Usuario';
+    document.getElementById('auth_user_password').placeholder = 'Contraseña';
+
+</script>
+{{end page_js}}

@@ -1,0 +1,14 @@
+{{extend 'layout_frontend.html'}}
+
+<div class="error-page d-flex align-items-center flex-wrap justify-content-center pd-20">
+    <div class="pd-10">
+        <div class="error-page-wrap text-center">
+            <h1>Error</h1>
+            <h3>No autorizado</h3>
+            <p>Lo siento, esta funcionalidad no está disponible para usted.<br>Por favor revise la URL.</p>
+            <div class="pt-20 mx-auto max-width-200">
+                <a href="{{=URL('default', 'index')}}" class="btn btn-primary btn-block btn-lg">Volver al inicio</a>
+            </div>
+        </div>
+    </div>
+</div>

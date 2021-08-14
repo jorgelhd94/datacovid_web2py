@@ -1,0 +1,46 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+<style>
+    .card-box h6 {
+        margin-bottom: 10px;
+    }
+</style>
+{{end head}}
+
+<a href="{{=URL('control_foco', 'administrar')}}" class=" mb-10 btn btn-primary"> <span><i
+            class="fa fa-list"></i></span>
+    Administrar</a>
+
+
+<div class="row">
+    <div class="col-md-12 mb-30">
+        <div class="pd-20 card-box">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="h4 text-blue mb-20">Detalles</h5>
+                </div>
+                {{if not auth.has_membership("Administrador"):}}
+                <div class="col-md-6 text-right">
+                    
+                    <a href="{{=URL('control_foco', 'editar', args=control_foco.id)}}" title="Editar"
+                        class=" mb-10 btn btn-success"> <span><i class="fa fa-pencil"></i></span>
+                    </a>
+                    <a href="{{=URL('control_foco', 'cambiar_estado', args=control_foco.id)}}" title="Cambiar estado"
+                        class=" mb-10 btn btn-info"> <span><i class="fa fa-refresh"></i></span>
+                    </a>
+                </div>
+                {{pass}}
+            </div>
+
+            <h6>Nombre: {{=control_foco.nombre}}</h6>
+            <h6>Estado: {{=control_foco.estado}}</h6>
+            <h6>Fecha de apertura:
+                {{=control_foco.fecha_apertura.strftime("%d/%m/%Y") if control_foco.fecha_apertura else ""}}</h6>
+            <h6>Fecha del último caso:
+                {{=control_foco.fecha_ultimo_caso.strftime("%d/%m/%Y") if control_foco.fecha_ultimo_caso else ""}}</h6>
+            <h6>Fecha de cierre:
+                {{=control_foco.fecha_cierre if control_foco.fecha_cierre else ""}}</h6>
+        </div>
+    </div>
+</div>

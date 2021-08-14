@@ -1,0 +1,4 @@
+# Importante
+
+El archivo vue.js es el vue de producción. Para utilizar la versión de desarrollo, 
+copia los archivos que están en la carpeta develop y sobrescribe el vue.js.

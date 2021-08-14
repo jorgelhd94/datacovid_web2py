@@ -1,0 +1,471 @@
+<div>
+    <div class="wizard-content">
+        <div class="tab-wizard wizard-circle wizard">
+            <div class="steps clearfix">
+                <ul role="tablist">
+                    <li role="tab" class="first" :class="clase_opcion(13)" aria-disabled="false" aria-selected="true">
+                        <a id="steps-uid-0-t-0" href="#" aria-controls="steps-uid-0-p-0">
+                            <span class="current-info audible">current step: </span>
+                            <span class="step">13</span>
+                            Vigilancia
+                        </a>
+                    </li>
+
+                    <li role="tab" :class="clase_opcion(14)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">14</span>
+                            Origen de las Muestras
+                        </a>
+                    </li>
+
+                    <li role="tab" :class="clase_opcion(15)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">15</span>
+                            Muestras pendientes
+                        </a>
+                    </li>
+
+                    <li role="tab" class="last" :class="clase_opcion(16)">
+                        <a id="steps-uid-0-t-2" href="#" aria-controls="steps-uid-0-p-2">
+                            <span class="step">16</span>
+                            Inspección Sanitaria Estatal
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+
+            <div style="padding: 10px!important;">
+                <!--Vigilancia-->
+                <div v-show="opcion == 13">
+                    <validation-observer ref="vigilanciaObserver" v-slot="{ invalid }">
+                        <h5>Vigilancia</h5>
+
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Muestras tomadas:</label>
+
+                                        <validation-provider name="Muestras tomadas" vid="muestras_tomadas"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="muestras_tomadas" type="number"
+                                                v-model.lazy="datos.vigilancia.muestras_tomadas" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Muestras enviadas:</label>
+
+                                        <validation-provider name="Muestras enviadas" vid="muestras_enviadas"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="muestras_enviadas" type="number"
+                                                v-model.lazy="datos.vigilancia.muestras_enviadas" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Muestras de eventos:</label>
+
+                                        <validation-provider name="Muestras de eventos" vid="muestras_eventos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="muestras_eventos" type="number"
+                                                v-model.lazy="datos.vigilancia.muestras_eventos" class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Muestras de controles de foco:</label>
+
+                                        <validation-provider name="Muestras de controles de foco"
+                                            vid="muestras_control_foco" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="muestras_control_foco" type="number"
+                                                v-model.lazy="datos.vigilancia.muestras_control_foco"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Muestras acumuladas enviadas:</label>
+
+                                        <validation-provider name="Muestras acumuladas enviadas"
+                                            vid="acumuladas_enviadas" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="acumuladas_enviadas" type="number"
+                                                v-model.lazy="datos.vigilancia.acumuladas_enviadas"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Resultados positivos:</label>
+
+                                        <validation-provider name="Resultados positivos" vid="resultados_positivos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="resultados_positivos" type="number"
+                                                v-model.lazy="datos.vigilancia.resultados_positivos"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Resultados confirmatorios:</label>
+
+                                        <validation-provider name="Resultados confirmatorios"
+                                            vid="resultados_confirmatorios" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="resultados_confirmatorios" type="number"
+                                                v-model.lazy="datos.vigilancia.resultados_confirmatorios"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Resultados negativos:</label>
+
+                                        <validation-provider name="Resultados negativos" vid="resultados_negativos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="resultados_negativos" type="number"
+                                                v-model.lazy="datos.vigilancia.resultados_negativos"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Resultados evolutivos:</label>
+
+                                        <validation-provider name="Resultados evolutivos" vid="resultados_evolutivos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="resultados_evolutivos" type="number"
+                                                v-model.lazy="datos.vigilancia.resultados_evolutivos"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Resultados inhibidos:</label>
+
+                                        <validation-provider name="Resultados inhibidos" vid="resultados_inhibidos"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="resultados_inhibidos" type="number"
+                                                v-model.lazy="datos.vigilancia.resultados_inhibidos"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tiempo entre la toma de muestra y su salida hacia La Habana:</label>
+
+                                        <validation-provider name="Tiempo promedio"
+                                            vid="tiempo_promedio_salida" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="tiempo_promedio_salida" type="number"
+                                                v-model.lazy="datos.vigilancia.tiempo_promedio_salida"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tiempo promedio entre la toma de muestra y el resultado:</label>
+
+                                        <validation-provider name="Tiempo promedio"
+                                            vid="tiempo_promedio_resultado" rules="required|numeric|min_value:0"
+                                            v-slot="{ errors, classes }">
+
+                                            <input id="tiempo_promedio_resultado" type="number"
+                                                v-model.lazy="datos.vigilancia.tiempo_promedio_resultado"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Origen de las muestras-->
+                <div v-show="opcion == 14">
+                    <validation-observer ref="origenObserver" v-slot="{ invalid }">
+                        <h5>Origen de las muestras</h5>
+
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Origen</label>
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <select id="selectOrigen" class="custom-select2 form-control"
+                                                    name="state"
+                                                    style="display:inline-block;width: 100%; height: 38px;">
+                                                    <option disabled value="">Seleccionar origen</option>
+                                                    <option v-for="origen in origenes" :value="origen.id">
+                                                        [[ origen.nombre ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <button class="btn btn-success" @click="addOrigen()">
+                                                    <span><i class="fa fa-plus"></i></span>
+                                                    Añadir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" v-show="datos.vigilancia.origen.length">
+                                <div class="col-md-12">
+                                    <p style="color: red;" v-show="existeOrigen">
+                                        El origen ya fue seleccionado
+                                    </p>
+                                </div>
+
+                                <!--Tabla de origenes-->
+                                <div class="col-md-6">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Origen</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(origen, key) in datos.vigilancia.origen">
+                                                    <th scope="row">
+                                                        [[ origen.nombre ]]
+                                                    </th>
+                                                    <th scope="row">
+
+                                                        <validation-provider name="Cantidad" vid="cant_origen"
+                                                            rules="required|numeric|min_value:1"
+                                                            v-slot="{ errors, classes }">
+
+                                                            <input id="cant_origen" type="number"
+                                                                v-model.lazy="origen.cantidad" class="form-control">
+
+                                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                                        </validation-provider>
+
+                                                    </th>
+                                                    <th scope="row">
+                                                        <button class="btn btn-danger"
+                                                            @click="quitarOrigen(key)"><span><i
+                                                                    class="fa fa-trash"></i></span></button>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" v-show="!datos.vigilancia.origen.length">
+                                <div class="col-md-12 text-left">
+                                    <h6>No se han añadido origenes de muestra</h6>
+                                </div>
+                            </div>
+                        </section>
+                    </validation-observer>
+                </div>
+
+                <!--Muestras pendientes-->
+                <div v-show="opcion == 15">
+                    <validation-observer ref="pendientesObserver" v-slot="{ invalid }">
+                        <h5>Muestras pendientes</h5>
+
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Con 2 días:</label>
+
+                                        <validation-provider name="Con 2 días" vid="con_2_dias"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="con_2_dias" type="number"
+                                                v-model.lazy="datos.muestras_pendientes.con_2_dias"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Con más de 3 días:</label>
+
+                                        <validation-provider name="Con más de 3 días" vid="con_mas_3_dias"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="con_mas_3_dias" type="number"
+                                                v-model.lazy="datos.muestras_pendientes.con_mas_3_dias"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>                                
+
+                            </div>
+                        </section>
+                    </validation-observer>
+                </div>
+                
+                <!--Inspección Sanitaria Estatal-->
+                <div v-show="opcion == 16">
+                    <validation-observer ref="inspeccionObserver" v-slot="{ invalid }">
+                        <h5>Inspección Sanitaria Estatal</h5>
+                        
+                        <section class="mt-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Centros visitados:</label>
+
+                                        <validation-provider name="Centros visitados" vid="centros_visitados"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="centros_visitados" type="number"
+                                                v-model.lazy="datos.inspeccion_sanitaria_estatal.centros_visitados"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Centros inspeccionados:</label>
+
+                                        <validation-provider name="Centros inspeccionados" vid="centros_inspeccionados"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="centros_inspeccionados" type="number"
+                                                v-model.lazy="datos.inspeccion_sanitaria_estatal.centros_inspeccionados"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Inspectores que salieron:</label>
+
+                                        <validation-provider name="Inspectores que salieron" vid="inspectores_salieron"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="inspectores_salieron" type="number"
+                                                v-model.lazy="datos.inspeccion_sanitaria_estatal.inspectores_salieron"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Medidas impuestas:</label>
+
+                                        <validation-provider name="Medidas impuestas" vid="medidas_impuestas"
+                                            rules="required|numeric|min_value:0" v-slot="{ errors, classes }">
+
+                                            <input id="medidas_impuestas" type="number"
+                                                v-model.lazy="datos.inspeccion_sanitaria_estatal.medidas_impuestas"
+                                                class="form-control">
+
+                                            <div style="color: red;">[[ errors[0] ]]</div>
+                                        </validation-provider>
+                                    </div>
+                                </div>
+
+                               
+                            </div>
+                        </section>
+                    </validation-observer>
+                </div>
+            </div>
+
+
+            <!--Botones de wizard-->
+            <div class="col-md-12 text-right mt-4">
+                <button class="btn btn-danger" v-show="opcion > 1" @click="decrementarOpcion()">Atrás</button>
+
+                <button class="btn btn-primary" @click="incrementarOpcion()">Siguiente</button>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

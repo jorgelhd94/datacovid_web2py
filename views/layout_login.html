@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Basic Page Info -->
+	<meta charset="utf-8">
+	<title>InfoCovid</title>
+
+	<!-- Site favicon -->
+	<link rel="apple-touch-icon" sizes="180x180"
+		href="{{=URL('static/frontend','vendors/images/apple-touch-icon.png')}}">
+	<link rel="icon" type="image/png" sizes="32x32"
+		href="{{=URL('static/frontend','vendors/images/favicon-32x32.png')}}">
+	<link rel="icon" type="image/png" sizes="16x16"
+		href="{{=URL('static/frontend','vendors/images/favicon-16x16.png')}}">
+
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="{{=URL('static/frontend','vendors/styles/core.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{=URL('static/frontend','vendors/styles/icon-font.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{=URL('static/frontend','vendors/styles/style.css')}}">
+
+	<!-- Toastr -->
+	<link rel="stylesheet" href="{{=URL('static','vendor/toastr/toastr.min.css')}}">
+
+	<!-- Sweetalert -->
+	<link rel="stylesheet" type="text/css" href="{{=URL('static','vendor/sweetalert2/sweetalert.css')}}">
+
+
+
+	<style>
+		body {
+			background-color: #8fa7dd;
+		}
+
+		@media (max-width: 767px) {
+			.mobile {
+				display: none;
+			}
+		}
+
+
+		.bg-white {
+			background-color: #f5f5f5 !important;
+		}
+
+		.fondo {
+			height: 550px;
+		}
+
+		/* {{if session.error:}} */
+		.login-box .login-title {
+			margin-bottom: 10px;
+		}
+
+		/* {{pass}} */
+	</style>
+</head>
+
+<body class="login-page">
+
+	<div class="pre-loader">
+		<div class="pre-loader-box">
+			<div class="loader-logo"><img src="{{=URL('static/frontend','vendors/images/icon_white.png')}}" alt="">
+			</div>
+			<div class='loader-progress' id="progress_div">
+				<div class='bar' id='bar1'></div>
+			</div>
+			<div class='percent' id='percent1'>0%</div>
+			<div class="loading-text">
+				Cargando...
+			</div>
+		</div>
+	</div>
+
+	<div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-md-6 text-center mobile">
+					<img class="fondo" src="{{=URL('static', 'images/fondo.svg')}}" alt="">
+				</div>
+				<div class="col-md-6">
+					{{include}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- js -->
+	<script src="{{=URL('static/frontend','vendors/scripts/core.js')}}"></script>
+	<script src="{{=URL('static/frontend','vendors/scripts/script.min.js')}}"></script>
+	<script src="{{=URL('static/frontend','vendors/scripts/process.js')}}"></script>
+	<script src="{{=URL('static/frontend','vendors/scripts/layout-settings.js')}}"></script>
+
+	<script src="{{=URL('static','vendor/toastr/toastr.min.js')}}"></script>
+
+
+	<script src="{{=URL('static','vendor/sweetalert2/sweetalert.min.js')}}"></script>
+
+	<script>
+		const preloader = () => {
+			$('.pre-loader').fadeOut();
+		};
+
+		$(document).ready(function () {
+			preloader();
+		});
+	</script>
+
+
+	{{if session.msg and session.status or response.flash:}}
+	<script>
+		// {{if response.flash:}}
+		const msg = '{{=response.flash}}';
+		// {{else:}}
+		const msg = '{{=session.msg}}';
+		// {{pass}}
+
+		$(document).ready(function () {
+			toastr.info(msg, 'Notificación', {
+				timeOut: 3000,
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": true,
+				"progressBar": true,
+				"positionClass": "toast-top-right",
+				"preventDuplicates": true,
+				"onclick": null,
+				"showDuration": "300",
+				"hideDuration": "500",
+				//"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut",
+				"tapToDismiss": true
+
+			})
+		});
+	</script>
+	{{session.msg=""}}
+	{{session.status=False}}
+	{{pass}}
+	{{if session.msg and session.error:}}
+	<script>
+		$(document).ready(function () {
+			toastr.error('{{=session.msg}}', 'Error', {
+				timeOut: 3000,
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": true,
+				"progressBar": true,
+				"positionClass": "toast-top-right",
+				"preventDuplicates": true,
+				"onclick": null,
+				"showDuration": "300",
+				"hideDuration": "500",
+				//"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut",
+				"tapToDismiss": true
+
+			})
+		});
+	</script>
+	{{session.msg=""}}
+	{{session.error=False}}
+	{{pass}}
+
+	{{block page_js}}{{end page_js}}
+</body>
+
+</html>
