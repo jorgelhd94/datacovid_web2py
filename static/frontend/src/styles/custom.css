@@ -1,0 +1,16 @@
+/* Color primary text */
+.text-primary-custom{
+    color: #5cb848!important;
+}
+
+.btn-primary-custom {
+    color: #fff;
+    background-color: #5cb848;
+    border-color: #5cb848;
+}
+
+.btn-primary-custom:hover {
+    color: #fff;
+    background-color: #49af32;
+    border-color: #93D482;
+}
