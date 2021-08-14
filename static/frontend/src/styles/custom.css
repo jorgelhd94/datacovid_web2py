@@ -1,6 +1,15 @@
+/* Percent Loading */
+.bar{
+    background-color: #328632!important;
+}
+
 /* Color primary text */
 .text-primary-custom{
     color: #5cb848!important;
+}
+
+.text-green{
+    color: #328632!important;
 }
 
 .btn-primary-custom {
@@ -13,4 +22,49 @@
     color: #fff;
     background-color: #49af32;
     border-color: #93D482;
+}
+
+/* Sidebar Dark */
+.sidebar-dark > .left-side-bar{
+    background: #328632!important;
+}
+
+.left-side-bar .close-sidebar{
+    color: white;
+}
+
+/* Header dark */
+
+.header-dark > .header{
+    background: #328632!important;
+}
+
+/* Sidebar Light */
+.sidebar-light .sidebar-menu>ul>li>.dropdown-toggle.active {
+    background-color: #328632!important;
+    color: #fff;
+}
+
+.sidebar-light .sidebar-menu .dropdown-toggle:hover, .sidebar-light .sidebar-menu .show>.dropdown-toggle, .sidebar-light .sidebar-menu .submenu li a.active, .sidebar-light .sidebar-menu .submenu li a:hover{
+    background-color: #328632!important;
+    color: #fff;
+}
+
+
+/* Buttons OutLine */
+.btn-outline-primary{
+    color: #328632;
+    border-color: #328632;
+}
+
+.btn-outline-primary:hover{
+    color: #fff;
+    background-color: #328632;
+    border-color: #328632;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show > .btn-outline-primary.dropdown-toggle{
+    color: #fff;
+    background-color: #328632;
+    border-color: #328632;
 }

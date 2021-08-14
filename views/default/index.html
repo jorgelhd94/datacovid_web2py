@@ -24,14 +24,14 @@
 <div class="card-box pd-20 height-100-p mb-30">
   <div class="row align-items-center">
     <div class="col-md-4">
-      <img src="{{=URL('static/images', 'doctores.svg')}}" alt="">
+      <img src="{{=URL('static/images', 'data/homepage.svg')}}" alt="">
     </div>
     <div class="col-md-8">
       <h4 class="font-20 weight-400 mb-10 ">
         {{if auth.has_membership("Administrador"):}}
-        Bienvenido a <div class="weight-600 font-30 text-blue text-capitalize">InfoCovid</div>
+        Bienvenido a <div class="weight-600 font-30 text-green text-capitalize">DataCovid</div>
         {{else:}}
-        Bienvenido a <div class="weight-600 font-30 text-blue text-capitalize">InfoCovid - {{=provincia.nombre}}</div>
+        Bienvenido a <div class="weight-600 font-30 text-green text-capitalize">DataCovid - {{=provincia.nombre}}</div>
         {{pass}}
       </h4>
       <p class="font-18 max-width-600">Un sistema informático para la gestión de reportes sobre la COVID-19 creado
@@ -98,9 +98,9 @@
   <div class="col-md-12">
     <div class="bg-white pd-20 card-box mb-30">
       {{if auth.has_membership("Administrador"):}}
-      <h4 class="h4 text-blue">Evolución de la Covid-19 en el país</h4>
+      <h4 class="h4 text-green">Evolución de la Covid-19 en el país</h4>
       {{else:}}
-      <h4 class="h4 text-blue">Evolución de la Covid-19 en {{=provincia.nombre}}</h4>
+      <h4 class="h4 text-green">Evolución de la Covid-19 en {{=provincia.nombre}}</h4>
       {{pass}}
       <div id="chart1"></div>
     </div>

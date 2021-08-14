@@ -4,15 +4,11 @@
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>InfoCovid</title>
+	<title>DataCovid</title>
 
 	<!-- Site favicon -->
-	<link rel="apple-touch-icon" sizes="180x180"
-		href="{{=URL('static/frontend','vendors/images/apple-touch-icon.png')}}">
-	<link rel="icon" type="image/png" sizes="32x32"
-		href="{{=URL('static/frontend','vendors/images/favicon-32x32.png')}}">
-	<link rel="icon" type="image/png" sizes="16x16"
-		href="{{=URL('static/frontend','vendors/images/favicon-16x16.png')}}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{{=URL('static','images/data/icon_32.png')}}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{{=URL('static','images/data/icon_16.png')}}">
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -22,6 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="{{=URL('static/frontend','vendors/styles/core.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{=URL('static/frontend','vendors/styles/icon-font.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{=URL('static/frontend','vendors/styles/style.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{=URL('static/frontend','src/styles/custom.css')}}">
 
 
 	<!-- Toastr -->
@@ -49,7 +46,7 @@
 <body>
 	<div class="pre-loader">
 		<div class="pre-loader-box">
-			<div class="loader-logo"><img src="{{=URL('static/frontend','vendors/images/icon_white.png')}}" alt="">
+			<div class="loader-logo"><img src="{{=URL('static','images/data/icon_light_green.png')}}" alt="">
 			</div>
 			<div class='loader-progress' id="progress_div">
 				<div class='bar' id='bar1'></div>
@@ -103,7 +100,7 @@
 
 	<div class="right-sidebar">
 		<div class="sidebar-title">
-			<h3 class="weight-600 font-16 text-blue">
+			<h3 class="weight-600 font-16 text-green">
 				Configuración
 				<span class="btn-block font-weight-400 font-12">Configuración de la interfaz</span>
 			</h3>
@@ -193,10 +190,10 @@
 	<div class="left-side-bar">
 		<div class="brand-logo">
 			<a href="index.html">
-				<img src="{{=URL('static/frontend','vendors/images/icon_white.png')}}" alt="" class="dark-logo">
-				<img src="{{=URL('static/frontend','vendors/images/icon_dark.png')}}" alt="" class="light-logo">
+				<img src="{{=URL('static','images/data/icon_light_green.png')}}" alt="" class="dark-logo">
+				<img src="{{=URL('static','images/data/icon_dark_green.png')}}" alt="" class="light-logo">
 
-			
+
 			</a>
 			<div class="close-sidebar" data-toggle="left-sidebar-close">
 				<i class="ion-close-round"></i>
@@ -210,28 +207,27 @@
 					<li>
 						<div class="dropdown-divider"></div>
 					</li>
-					{{elif len(_item)<4 or not _item[3]:}}
-					<li>
+					{{elif len(_item)<4 or not _item[3]:}} <li>
 						<a href="{{=_item[2]}}" class="dropdown-toggle no-arrow {{if _item[1]:}}active{{pass}}">
 							<span class="micon dw {{=iconos.get(_item[0], None )}}"></span><span
 								class="mtext">{{=_item[0]}}</span>
 						</a>
-					</li>
-					{{else:}}
-					<li class="dropdown {{if _item[1]:}}show{{pass}}">
-						<a href="javascript:;" class="dropdown-toggle">
-							<span class="micon dw {{=iconos.get(_item[0], None )}}"></span><span
-								class="mtext">{{=_item[0]}}</span>
-						</a>
-						<ul class="submenu">
-							{{for _subitem in _item[3]:}}
-							<li><a href="{{=_subitem[2]}}"
-									class="{{if _subitem[1]:}}active{{pass}}">{{=_subitem[0]}}</a></li>
-							{{pass}}
-						</ul>
-					</li>
-					{{pass}}
-					{{pass}}
+						</li>
+						{{else:}}
+						<li class="dropdown {{if _item[1]:}}show{{pass}}">
+							<a href="javascript:;" class="dropdown-toggle">
+								<span class="micon dw {{=iconos.get(_item[0], None )}}"></span><span
+									class="mtext">{{=_item[0]}}</span>
+							</a>
+							<ul class="submenu">
+								{{for _subitem in _item[3]:}}
+								<li><a href="{{=_subitem[2]}}"
+										class="{{if _subitem[1]:}}active{{pass}}">{{=_subitem[0]}}</a></li>
+								{{pass}}
+							</ul>
+						</li>
+						{{pass}}
+						{{pass}}
 
 
 				</ul>
@@ -247,7 +243,7 @@
 			</div>
 
 			<div class="footer-wrap pd-20 mb-20 card-box">
-				INFOCOVID - Desarrollado por la <a href="#">Facultad de Informática y Ciencias Exactas</a> - Ciego de
+				DATACOVID - Desarrollado por la EICMA y el grupo AltaGama - Ciego de
 				Ávila
 			</div>
 		</div>
@@ -277,7 +273,7 @@
 	{{if session.msg and session.status:}}
 	<script>
 		$(document).ready(function () {
-			toastr.info('{{=session.msg}}', 'Notificación', {
+			toastr.primary('{{=session.msg}}', 'Notificación', {
 				timeOut: 3000,
 				"closeButton": true,
 				"debug": false,
