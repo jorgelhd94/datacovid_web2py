@@ -396,7 +396,7 @@
                 <button class="btn btn-danger" v-show="opcion > 1" @click="decrementarOpcion()"
                     :disabled="btnLoading">Atrás</button>
 
-                <button class="btn btn-primary" v-show="opcion < 20" @click="incrementarOpcion()">Siguiente</button>
+                <button class="btn btn-success" v-show="opcion < 20" @click="incrementarOpcion()">Siguiente</button>
 
                 <button class="btn btn-success" v-show="opcion == 20 && !btnLoading"
                     @click="finalizar()">Finalizar</button>

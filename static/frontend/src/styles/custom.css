@@ -1,3 +1,8 @@
+/* Header */
+h1, h2, h3, h4, h5, h6 {
+    color: #328632!important;
+}
+
 /* Percent Loading */
 .bar{
     background-color: #328632!important;
@@ -23,6 +28,38 @@
     background-color: #49af32;
     border-color: #93D482;
 }
+
+.btn-primary {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-primary.focus, .btn-primary:focus {
+    background-color: #1e7e34;
+    border-color: #28a745;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(38, 255, 67, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(38, 255, 67, 0.5); }
+  
+  .btn-primary.disabled, .btn-primary:disabled {
+    background-color: #1e7e34;
+    border-color: #1e7e34; }
+  
+  .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745; 
+}
+  
+  .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-primary.dropdown-toggle:focus {
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(38, 255, 67, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(38, 255, 67, 0.5); }
 
 /* Sidebar Dark */
 .sidebar-dark > .left-side-bar{
@@ -67,4 +104,35 @@
     color: #fff;
     background-color: #328632;
     border-color: #328632;
+}
+
+/* Dropdow Item */
+.dropdown-item:focus, .dropdown-item:hover {
+    background: #ecf0f4;
+    color: #328632;
+}
+
+/* Checkbox */
+.custom-control-label::before{
+	border-color:#328632!important;
+}
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before{
+	background-color: #328632!important;
+}
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before{
+	background-color: #328632!important;
+}
+
+/* Input */
+.form-control:focus , .custom-select:focus, .custom-file-input:focus{
+    border-color: #28a745;
+}
+
+/* Select */
+
+.select2-container--default .select2-results__option[aria-selected=true]{
+	background-color: #328632;
+}
+.select2-container--default .select2-results__option--highlighted[aria-selected]{
+	background-color: #328632;
 }

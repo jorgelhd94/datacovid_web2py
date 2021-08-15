@@ -73,8 +73,8 @@
 			<div class="user-info-dropdown">
 				<div class="dropdown">
 					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-						<span class="user-icon" style="padding-top: 5px;">
-							<img src="{{=URL('static/frontend','vendors/images/person.svg')}}" alt="">
+						<span class="user-icon">
+							<img src="{{=URL('static','images/user.png')}}" alt="">
 						</span>
 						<span class="user-name">{{=auth.user.username}}</span>
 					</a>
@@ -273,7 +273,7 @@
 	{{if session.msg and session.status:}}
 	<script>
 		$(document).ready(function () {
-			toastr.primary('{{=session.msg}}', 'Notificación', {
+			toastr.success('{{=session.msg}}', 'Notificación', {
 				timeOut: 3000,
 				"closeButton": true,
 				"debug": false,
