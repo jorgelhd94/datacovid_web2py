@@ -15,7 +15,7 @@ db.define_table("ingreso_hospitalario",
                 Field("fecha_ingreso","date"),
                 Field("fecha_alta","date"),
                 Field("fecha_vacunacion","date"),
-                Field("ubicacion","reference municipio",label=T("Ubicación")),
+                Field("idubicacion", "reference ubicacion"),
                 )
 
 db.ingreso_hospitalario.nombre.requires=[IS_NOT_EMPTY(),IS_LENGTH(3)]
@@ -25,4 +25,3 @@ db.ingreso_hospitalario.ci.requires=[IS_NOT_EMPTY(),IS_LENGTH(11)]
 db.ingreso_hospitalario.nombre_hospital.requires=[IS_NOT_EMPTY(),IS_LENGTH(50)]
 db.ingreso_hospitalario.vacuna.requires=IS_IN_SET(["Tipo 1", "Tipo 2", "Tipo 3", "Tipo 4", "Tipo 5"])
 db.ingreso_hospitalario.tipo_vacunacion.requires=IS_IN_SET(["Tipo 1", "Tipo 2", "Tipo 3", "Tipo 4", "Tipo 5"])
-db.ingreso_hospitalario.ubicacion.requires=IS_IN_DB(db, "municipio.id", zero=None)

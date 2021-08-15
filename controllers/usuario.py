@@ -1,14 +1,4 @@
 # Controlador para gestionar los usuarios y permisos
-if auth.user:
-    require_cargo = IS_IN_SET(
-        ['Director', 'Comercial', 'Especialista', 'Técnico', 'Aplicador'])
-    usuarios = db(db.auth_user.id != auth.user.id)
-    require_username = [IS_NOT_EMPTY(), IS_NOT_IN_DB(
-        usuarios, "auth_user.username"), IS_LENGTH(20)]
-    require_email = [IS_NOT_EMPTY(), IS_EMAIL(
-    ), IS_NOT_IN_DB(usuarios, "auth_user.email")]
-
-
 def iniciar_sesion():
     form = auth.login()
 
@@ -26,45 +16,6 @@ def iniciar_sesion():
 def logout():
     auth.logout()
     return dict()
-
-
-def crear_administrador():
-    if db(db.auth_user.id > 0).select():
-        redirect(URL("iniciar_sesion"))
-
-    try:
-        form = SQLFORM.factory(Field("first_name", label=T("Nombre(s)"), requires=IS_NOT_EMPTY()),
-                               Field("last_name", label=T("Apellidos"),
-                                     requires=IS_NOT_EMPTY()),
-                               Field("username", label=T("Nombre de usuario"), default="superadmin",
-                                     requires=require_username, writable=False),
-                               Field("email", label=T("Correo electrónico"),
-                                     requires=require_email),
-                               Field("ci", label=T(
-                                   "Carnet de identidad"), default="---------------", requires=[IS_NOT_EMPTY()]),
-                               Field("cargo", label=T("Cargo"),
-                                     requires=require_cargo),
-                               Field("password", "password", label=T(
-                                   "Contraseña"), requires=[IS_NOT_EMPTY(), CRYPT()]),
-                               Field("repeat", "password", label=T("Repetir contraseña"), requires=[
-                                     IS_EQUAL_TO(request.vars.password)]),
-                               table_name='auth_user'
-                               )
-
-        if form.validate():
-            user_id = db.auth_user.insert(username="superadmin", **form.vars)
-            db.auth_membership.insert(user_id=user_id, group_id=1)
-            raise TypeError
-
-        elif form.errors:
-            session.flash = 'El formulario tiene errores'
-    except TypeError:
-        session.flash = 'Usuario creado correctamente'
-        redirect(URL("usuario", "iniciar_sesion"))
-    except:
-        redirect(URL("crear_administrador"))
-
-    return dict(form=form)
 
 
 @auth.requires_login()
@@ -171,8 +122,12 @@ def crear():
                                Field("provincia", "reference provincia", label=T("Asignar provincia"),
                                      requires=IS_EMPTY_OR(
                                          IS_IN_SET({i.id: i.nombre for i in db(db.provincia.id > 0).select()}))
-                                     )
-                               )
+                                     ),
+                               Field("zona_ingreso", "reference ubicacion", label=T("Asignar Zona de Ingreso"),
+                                     requires=IS_EMPTY_OR(
+                                   IS_IN_SET({i.id: i.nombre for i in db(db.ubicacion.id > 0).select()}))
+        ),
+        )
 
         if form.validate():
             if (form.vars.rol == 2):
@@ -312,7 +267,7 @@ def cambiar_clave_usuario():
         redirect(URL('default', 'index'))
 
     registro = db.auth_user(request.args(0, cast=int)
-                           ) or redirect(URL('administrar'))
+                            ) or redirect(URL('administrar'))
 
     form = SQLFORM.factory(Field("password", "password", label=T("Nueva Contraseña"), requires=[IS_NOT_EMPTY(), CRYPT()]),
                            Field("repeat", "password", label=T("Repetir contraseña"), requires=[
@@ -344,7 +299,7 @@ def eliminar():
         db(db.auth_user.id == x).delete()
         session.status = True
         session.msg = 'Usuario eliminado correctamente'
-    
+
     redirect(URL("administrar"))
 
     return dict()

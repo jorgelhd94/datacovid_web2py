@@ -72,6 +72,11 @@
               {{=form.custom.label.provincia}} <span class="error">*</span>
               <div class="mb-2">{{=form.custom.widget.provincia}}</div>
             </div>
+
+            <div class="col-sm-6 no_display" id="zona_ingreso">
+              {{=form.custom.label.zona_ingreso}} <span class="error">*</span>
+              <div class="mb-2">{{=form.custom.widget.zona_ingreso}}</div>
+            </div>
           
           </div>
   
@@ -90,13 +95,22 @@
 <script>
 
     $('#no_table_provincia').select2();
+    $('#no_table_zona_ingreso').select2();
 
     function cambiar_display() {
       const item = $("#no_table_rol").val();
       if (item == 2) {
         $("#provincia").removeClass("no_display");
-      } else {
+        $("#zona_ingreso").addClass("no_display");
+
+      }
+      else if(item == 3){
+        $("#zona_ingreso").removeClass("no_display");
         $("#provincia").addClass("no_display");
+      }
+      else {
+        $("#provincia").addClass("no_display");
+        $("#zona_ingreso").addClass("no_display");
       }
     }
     

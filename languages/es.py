@@ -40,6 +40,7 @@
 'Apply changes': 'Aplicar cambios',
 'Are you sure you want to delete this object?': '¿Está seguro que desea borrar este objeto?',
 'Asignar provincia': 'Asignar provincia',
+'Asignar Zona de Ingreso': 'Asignar Zona de Ingreso',
 'Authentication code': 'Authentication code',
 'Available Databases and Tables': 'Bases de datos y tablas disponibles',
 'Buscar:': 'Buscar:',
