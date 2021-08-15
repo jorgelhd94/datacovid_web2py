@@ -11,7 +11,7 @@ def __open_csv(url):
 if not db(db.auth_group.id > 0).select():
     db.auth_group.truncate()
     db.auth_group.insert(role="Administrador")
-    db.auth_group.insert(role="Usuario estándar")
+    db.auth_group.insert(role="Puesto de mando")
 
 
 # Provincias, Municipios y Grupo de edades

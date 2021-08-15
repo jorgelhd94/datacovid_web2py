@@ -61,6 +61,13 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-box-shadow: 0 0 0 0.2rem rgba(38, 255, 67, 0.5);
     box-shadow: 0 0 0 0.2rem rgba(38, 255, 67, 0.5); }
 
+    .btn-link {
+        color: #1e7e34;
+    }
+    .btn-link:hover {
+        color: #28a745;
+    }
+
 /* Sidebar Dark */
 .sidebar-dark > .left-side-bar{
     background: #328632!important;
@@ -135,4 +142,29 @@ h1, h2, h3, h4, h5, h6 {
 }
 .select2-container--default .select2-results__option--highlighted[aria-selected]{
 	background-color: #328632;
+}
+
+/* Wizard */
+.steps>ul>li.current .step {
+    border: 2px solid #328632!important;
+    color: #28a745!important;
+}
+.steps>ul>li.done .step {
+    background-color: #328632!important;
+    border-color: #28a745!important;
+    color: #fff;
+}
+
+.steps>ul>li.done:after, .steps>ul>li.done:before {
+    background-color: #28a745!important;
+}
+
+.steps>ul>li.current:after, .steps>ul>li.current:before {
+    background-color: #28a745!important;
+}
+
+/* Datatable */
+.page-item.active .page-link {
+    background-color: #328632;
+    border-color: #328632;
 }

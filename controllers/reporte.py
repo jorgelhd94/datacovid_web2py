@@ -84,7 +84,7 @@ def detalles():
     return locals()
 
 
-@auth.requires_membership("Usuario estándar")
+@auth.requires_membership("Puesto de mando")
 def eliminar():
     if not request.args(0):
         redirect(URL('administrar'))
@@ -107,13 +107,13 @@ def eliminar():
     return dict()
 
 
-@auth.requires_membership("Usuario estándar")
+@auth.requires_membership("Puesto de mando")
 def crear():
     fecha_reporte = datetime.datetime.now().strftime("%d/%m/%Y")
     return locals()
 
 
-@auth.requires_membership("Usuario estándar")
+@auth.requires_membership("Puesto de mando")
 def editar():
     if not request.args(0):
         redirect(URL('administrar'))

@@ -31,7 +31,7 @@ def detalles():
     return locals()
 
 
-@auth.requires_membership("Usuario estándar")
+@auth.requires_membership("Puesto de mando")
 def crear():
     provincia = db((db.usuario_provincia.idusuario ==
                     auth.user.id) & (db.usuario_provincia.idprovincia == db.provincia.id)).select(db.provincia.ALL).first()
@@ -53,7 +53,7 @@ def crear():
     return locals()
 
 
-@auth.requires_membership("Usuario estándar")
+@auth.requires_membership("Puesto de mando")
 def editar():
     if not request.args(0):
         redirect(URL('administrar'))
@@ -88,7 +88,7 @@ def editar():
     return locals()
 
 
-@auth.requires_membership("Usuario estándar")
+@auth.requires_membership("Puesto de mando")
 def eliminar():
     if not request.args(0):
         redirect(URL('administrar'))
@@ -111,7 +111,7 @@ def eliminar():
     return dict()
 
 
-@auth.requires_membership("Usuario estándar")
+@auth.requires_membership("Puesto de mando")
 def cambiar_estado():
     if not request.args(0):
         redirect(URL('administrar'))
