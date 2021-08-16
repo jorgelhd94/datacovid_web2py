@@ -1,0 +1,64 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+<style>
+    .text-red {
+        color: red;
+    }
+</style>
+{{end head}}
+
+<a href="{{=URL('ingreso_hospitalario', 'administrar')}}" class=" mb-10 btn btn-primary"> <span><i class="fa fa-list"></i></span>
+    Administrar</a>
+
+<div id="container">
+    <div class="pd-20 card-box mb-30">
+        <div class="clearfix">
+            <h4 class="text-green h4">Nuevo ingreso</h4>
+        </div>
+
+        <div class="mt-4">
+            {{=form.custom.begin}}
+
+            <div class="row mb-10">
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.nombre}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.nombre}}</div>
+                </div>           
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.apellidos}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.apellidos}}</div>
+                </div>           
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.edad}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.edad}}</div>
+                </div>           
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.ci}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.ci}}</div>
+                </div>           
+
+            </div>
+            
+
+            <br>
+            {{=form.custom.submit}}
+            {{=form.custom.end}}
+        </div>
+
+
+    </div>
+
+</div>
+
+{{block page_js}}
+
+<script>
+    $("select").select2();
+
+    const idmunicipio = document.querySelector("#origen_idmunicipio");
+
+    idmunicipio.removeChild(idmunicipio.firstChild);
+</script>
+
+{{end page_js}}

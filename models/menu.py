@@ -9,6 +9,7 @@ T.force('es-es')
 
 iconos = {"Inicio": "dw-house", "Reportes": "dw-notepad-2",
           'Generar informe': 'dw-presentation-2', "Eventos": "dw-map", "Controles de foco": "dw-map",
+          'Ingresos': 'dw-file-4',
           'Orígen de muestras': 'dw-ambulance', 'Ubicación casos activos': 'dw-hospital', 'Usuarios': 'dw-user'}
 
 
@@ -34,6 +35,26 @@ menu_generico = [
          "administrar", URL('ubicacion', 'administrar')),
     ]),
 ]
+
+menu_ingresos = [
+    ("Divisor",),
+    (T('Ingresos'), request.controller == "ingreso_hospitalario" and (request.function == "crear" or
+                                                                  request.function == "administrar"), None, [
+        (T('Nuevo ingreso'), request.controller ==
+         "ingreso_hospitalario" and request.function == "crear", URL('ingreso_hospitalario', 'crear')),
+        (T('Administrar'), request.controller == "ingreso_hospitalario" and request.function ==
+         "administrar", URL('ingreso_hospitalario', 'administrar')),
+    ]),
+    (T('Ubicación casos activos'), request.controller == "ubicacion" and (request.function == "crear" or
+                                                                          request.function == "administrar"), None, [
+        (T('Crear ubicación'), request.controller ==
+         "ubicacion" and request.function == "crear", URL('ubicacion', 'crear')),
+        (T('Administrar'), request.controller == "ubicacion" and request.function ==
+         "administrar", URL('ubicacion', 'administrar')),
+    ]),
+]
+
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # provide shortcuts for development. you can remove everything below in production
@@ -75,7 +96,8 @@ if auth.has_membership("Administrador"):
                 "administrar", URL('usuario', 'administrar')),
         ]),
     ]
-
+elif auth.has_membership("Ingresos Hospitalarios"):
+    response.menu += menu_ingresos
 else:
     response.menu += [
         ("Divisor",),
