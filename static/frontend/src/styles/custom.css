@@ -17,6 +17,10 @@ h1, h2, h3, h4, h5, h6 {
     color: #328632!important;
 }
 
+.profile-info ul li span{
+    color: #328632!important;
+}
+
 .btn-primary-custom {
     color: #fff;
     background-color: #5cb848;

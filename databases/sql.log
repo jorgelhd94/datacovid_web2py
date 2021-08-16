@@ -408,3 +408,34 @@ success!
 success!
 success!
 success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-08-16T16:20:15.947963
+CREATE TABLE "usuario_ubicacion"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "idubicacion" INTEGER REFERENCES "ubicacion" ("id") ON DELETE CASCADE  ,
+    "idusuario" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

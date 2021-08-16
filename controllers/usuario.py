@@ -130,7 +130,7 @@ def crear():
         )
 
         if form.validate():
-            if (form.vars.rol == 2):
+            if form.vars.rol == 2:
                 if not form.vars.provincia:
                     session.error = True
                     session.msg = 'El formulario tiene errores'
@@ -141,6 +141,19 @@ def crear():
                         user_id=user_id, group_id=form.vars.rol)
                     db.usuario_provincia.insert(
                         idusuario=user_id, idprovincia=form.vars.provincia)
+
+                    raise TypeError
+            elif form.vars.rol == 3:
+                if not form.vars.zona_ingreso:
+                    session.error = True
+                    session.msg = 'El formulario tiene errores'
+                    form.errors.zona_ingreso = "No puede ser vacío"
+                else:
+                    user_id = db.auth_user.insert(**form.vars)
+                    db.auth_membership.insert(
+                        user_id=user_id, group_id=form.vars.rol)
+                    db.usuario_ubicacion.insert(
+                        idusuario=user_id, idubicacion=form.vars.zona_ingreso)
 
                     raise TypeError
             else:

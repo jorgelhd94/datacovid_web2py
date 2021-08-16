@@ -1,6 +1,11 @@
 # --------------------------------------------------------------------------
 # Ingresos Hospitalarios
 # --------------------------------------------------------------------------
+db.define_table("usuario_ubicacion",
+                Field("idubicacion", "reference ubicacion"),
+                Field("idusuario", "reference auth_user"),
+                format='%(nombre)s'
+                )
 
 db.define_table("ingreso_hospitalario",
                 Field("nombre"),
