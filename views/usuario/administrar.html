@@ -35,7 +35,15 @@
                     <td class="table-plus">{{=i.auth_user.first_name + " " + i.auth_user.last_name}}</td>
                     <td>{{=i.auth_user.username}}</td>
                     <td>{{=i.auth_membership.group_id.role}}</td>
-                    <td>{{=i.usuario_provincia.idprovincia.nombre if i.usuario_provincia.idprovincia else ""}}</td>
+                    <td>
+                        {{=i.usuario_provincia.idprovincia.nombre if i.usuario_provincia.idprovincia else ""}}
+
+                        {{if i.auth_membership.group_id == 3:}}
+                        {{=db(db.usuario_ubicacion.idusuario ==
+                        i.auth_user.id).select().first().idubicacion.idmunicipio.idprovincia.nombre}}
+                        {{pass}}
+                        
+                    </td>
 
                     <td>
                         <div class="dropdown">
@@ -46,7 +54,8 @@
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                                 <a class="dropdown-item" href="{{=URL('usuario', 'detalles', args=i.auth_user.id)}}"><i
                                         class="dw dw-eye"></i> Detalles</a>
-                                <a class="dropdown-item" href="{{=URL('usuario', 'cambiar_clave_usuario', args=i.auth_user.id)}}"><i
+                                <a class="dropdown-item"
+                                    href="{{=URL('usuario', 'cambiar_clave_usuario', args=i.auth_user.id)}}"><i
                                         class="dw dw-refresh"></i> Cambiar contraseña</a>
                                 <a class="dropdown-item" href="{{=URL('usuario', 'editar', args=i.auth_user.id)}}"><i
                                         class="dw dw-edit2"></i> Editar</a>

@@ -74,6 +74,10 @@ def perfil():
     else:
         provincia = "No tiene"
 
+    if db(db.usuario_ubicacion.idusuario == usuario.id).select().first():
+        provincia = db(db.usuario_ubicacion.idusuario ==
+                       usuario.id).select().first().idubicacion.idmunicipio.idprovincia.nombre
+
     return locals()
 
 
@@ -93,6 +97,10 @@ def detalles():
                        usuario.id).select().first().idprovincia.nombre
     else:
         provincia = "No tiene"
+
+    if db(db.usuario_ubicacion.idusuario == usuario.id).select().first():
+        provincia = db(db.usuario_ubicacion.idusuario ==
+                       usuario.id).select().first().idubicacion.idmunicipio.idprovincia.nombre
 
     return locals()
 
@@ -200,6 +208,12 @@ def editar():
         else:
             idprovincia = 0
 
+        if db(db.usuario_ubicacion.idusuario == registro.id).select().first():
+            idubicacion = db(db.usuario_ubicacion.idusuario ==
+                           registro.id).select().first().idubicacion.id
+        else:
+            idubicacion = 0
+
         form = SQLFORM.factory(Field("first_name", label=T("Nombre(s)"), default=registro.first_name, requires=IS_NOT_EMPTY()),
                                Field("last_name", label=T(
                                    "Apellidos"), default=registro.last_name, requires=IS_NOT_EMPTY()),
@@ -211,9 +225,12 @@ def editar():
                                                                                                                                  zero=T('Seleccionar rol'))),
                                Field("provincia", "reference provincia", label=T("Asignar provincia"), default=idprovincia,
                                      requires=IS_EMPTY_OR(
-                                   IS_IN_SET({i.id: i.nombre for i in db(db.provincia.id > 0).select()}))
-        )
-        )
+                                   IS_IN_SET({i.id: i.nombre for i in db(db.provincia.id > 0).select()}))),
+                               Field("zona_ingreso", "reference ubicacion", label=T("Asignar Zona de Ingreso"), default=idubicacion,
+                                     requires=IS_EMPTY_OR(
+                                   IS_IN_SET({i.id: i.nombre for i in db(
+                                       db.ubicacion.id > 0).select()}))),
+                               )
 
         if form.validate():
             if (form.vars.rol == 2):
@@ -230,6 +247,21 @@ def editar():
                     db.usuario_provincia.insert(
                         idusuario=registro.id, idprovincia=form.vars.provincia)
 
+                    raise TypeError
+            elif form.vars.rol == 3:
+                if not form.vars.zona_ingreso:
+                    session.error = True
+                    session.msg = 'El formulario tiene errores'
+                    form.errors.zona_ingreso = "No puede ser vacío"
+                else:
+                    db(db.auth_user.id == registro.id).update(**form.vars)
+                    db(db.auth_membership.user_id == registro.id).update(
+                        group_id=form.vars.rol)
+                    
+                    db(db.usuario_ubicacion.idusuario == registro.id).delete()
+                    db.usuario_ubicacion.insert(
+                        idusuario=registro.id, idubicacion=form.vars.zona_ingreso)
+                    
                     raise TypeError
             else:
                 db(db.auth_user.id == registro.id).update(**form.vars)
@@ -253,13 +285,13 @@ def editar():
     return dict(form=form, registro=registro)
 
 
-@auth.requires_login()
+@ auth.requires_login()
 def cambiar_clave():
     registro = db.auth_user(auth.user.id) or redirect(URL('default', 'index'))
 
     form = SQLFORM.factory(Field("password", "password", label=T("Nueva Contraseña"), requires=[IS_NOT_EMPTY(), CRYPT()]),
                            Field("repeat", "password", label=T("Repetir contraseña"), requires=[
-                                 IS_EQUAL_TO(request.vars.password)]),
+                               IS_EQUAL_TO(request.vars.password)]),
                            )
 
     if form.validate():
@@ -274,7 +306,7 @@ def cambiar_clave():
     return dict(form=form, registro=registro)
 
 
-@auth.requires_membership("Administrador")
+@ auth.requires_membership("Administrador")
 def cambiar_clave_usuario():
     if not request.args(0):
         redirect(URL('default', 'index'))
@@ -284,7 +316,7 @@ def cambiar_clave_usuario():
 
     form = SQLFORM.factory(Field("password", "password", label=T("Nueva Contraseña"), requires=[IS_NOT_EMPTY(), CRYPT()]),
                            Field("repeat", "password", label=T("Repetir contraseña"), requires=[
-                                 IS_EQUAL_TO(request.vars.password)]),
+                               IS_EQUAL_TO(request.vars.password)]),
                            )
 
     if form.validate():
@@ -299,7 +331,7 @@ def cambiar_clave_usuario():
     return dict(form=form, registro=registro)
 
 
-@auth.requires_membership("Administrador")
+@ auth.requires_membership("Administrador")
 def eliminar():
     if not request.args(0):
         redirect(URL('administrar'))
@@ -318,6 +350,6 @@ def eliminar():
     return dict()
 
 
-@auth.requires_login()
+@ auth.requires_login()
 def no_autorizado():
     return locals()

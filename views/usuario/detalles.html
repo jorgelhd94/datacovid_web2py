@@ -52,10 +52,18 @@
                         <span>Rol:</span>
                         {{=rol}}
                     </li>
+                    {{if rol == "Ingresos Hospitalarios":}}
+                    {{zona_ingreso=db(db.usuario_ubicacion.idusuario ==
+                    usuario.id).select().first().idubicacion.nombre}}
+                    <li>
+                        <span>Zona de Ingresos:</span>
+                        {{=zona_ingreso}}
+                    </li>
+                    {{pass}}
                     <li>
                         <span>Provincia:</span>
                         {{=provincia}}
-                    </li>
+                    </li>                   
                 </ul>
 
 

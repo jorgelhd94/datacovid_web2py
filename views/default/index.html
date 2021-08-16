@@ -31,11 +31,34 @@
         {{if auth.has_membership("Administrador"):}}
         Bienvenido a <div class="weight-600 font-30 text-green text-capitalize">DataCovid</div>
         {{else:}}
-        Bienvenido a <div class="weight-600 font-30 text-green text-capitalize">DataCovid - {{=provincia.nombre}}</div>
+        Bienvenido a
+        <div class="weight-600 font-30 text-green text-capitalize">
+          DataCovid - {{=provincia.nombre}}
+        </div>
         {{pass}}
       </h4>
+
+
+      {{if auth.has_membership("Ingresos Hospitalarios"):}}
+      <h5>
+        Zona de Ingresos - {{=ubicacion.nombre}}
+        <br>
+      </h5>
+      <br>
+      {{pass}}
+
+
+      {{if auth.has_membership("Puesto de mando"):}}
+      <h5>
+        Puesto de mando
+        <br>
+      </h5>
+      <br>
+      {{pass}}
+
       <p class="font-18 max-width-600">Un sistema informático para la gestión de reportes sobre la COVID-19 creado
-        por el area de aplcaciones informaticas UEB EICMA Ciego de Avila en colaboracion con el grupo Alta Gama. Puede comenzar
+        por el area de aplcaciones informaticas UEB EICMA Ciego de Avila en colaboracion con el grupo Alta Gama. Puede
+        comenzar
         gestionando sus reportes
         o generando informes.
     </div>

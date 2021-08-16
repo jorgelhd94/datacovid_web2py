@@ -14,9 +14,6 @@ def index():
     eventos = 0
     cf = 0
 
-    provincia = db((db.usuario_provincia.idusuario ==
-                    auth.user.id) & (db.usuario_provincia.idprovincia == db.provincia.id)).select(db.provincia.ALL).first()
-
     if auth.has_membership("Administrador"):
         reportes = db(db.reporte.fecha ==
                       datetime.datetime.now().date()).select(db.reporte.ALL)
@@ -33,6 +30,13 @@ def index():
         reportes_list = db(db.reporte.id > 0).select(orderby=db.reporte.fecha)
 
     else:
+        if auth.has_membership("Puesto de mando"):
+            provincia = db((db.usuario_provincia.idusuario ==
+                    auth.user.id) & (db.usuario_provincia.idprovincia == db.provincia.id)).select(db.provincia.ALL).first()
+        else:
+            ubicacion = db(db.usuario_ubicacion.idusuario == auth.user.id).select().first().idubicacion
+            provincia = ubicacion.idmunicipio.idprovincia
+        
         reporte = db((db.reporte.fecha == datetime.datetime.now().date()) & (db.reporte.idprovincia == provincia.id)).select(
             db.reporte.ALL).first()
 
