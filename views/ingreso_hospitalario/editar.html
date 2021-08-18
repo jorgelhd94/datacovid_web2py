@@ -59,9 +59,9 @@
                 <div class="col-md-4 mb-2">
                     {{=form.custom.label.fecha_ingreso}} <span class="text-red">*</span>
                     <div class="">
-                        <input class="form-control date-picker" placeholder="Seleccione la fecha" type="text">
-                        <input id="fecha_input" type="text" class="form-control date-picker"
-                            data-date-format="dd/mm/yyyy" placeholder="Seleccionar fecha" value="20/12/2020">
+                        <input class="form-control date-picker" id="ingreso_hospitalario_fecha_ingreso"
+                        name="fecha_ingreso"
+                         placeholder="Seleccione la fecha" type="text" value="{{=ingreso.fecha_ingreso.strftime('%d/%m/%Y')}}">
                     </div>
                     {{if form.errors.fecha_ingreso:}}
                     <p class="text-red">{{=form.errors.fecha_ingreso}}</p>
