@@ -108,6 +108,7 @@
 'El evento se ha actualizado correctamente': 'El evento se ha actualizado correctamente',
 'El evento se ha creado correctamente': 'El evento se ha creado correctamente',
 'El Ingreso Hospitalario se ha creado correctamente': 'El Ingreso Hospitalario se ha creado correctamente',
+'El Ingreso Hospitalario se ha editado correctamente': 'El Ingreso Hospitalario se ha editado correctamente',
 'El orígen de muestra se ha actualizado correctamente': 'El orígen de muestra se ha actualizado correctamente',
 'El orígen de muestra se ha creado correctamente': 'El orígen de muestra se ha creado correctamente',
 'Email and SMS': 'Correo electrónico y SMS',

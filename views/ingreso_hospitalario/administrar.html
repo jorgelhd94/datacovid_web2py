@@ -22,14 +22,29 @@
         <table class="data-table table stripe hover nowrap">
             <thead>
                 <tr>
-                    <th class="table-plus">Nombre</th>
+                    <th class="table-plus">Fecha de ingreso</th>
+                    <th>Carnet de identidad</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Edad</th>
+                    <th>Sexo</th>
+                    <th>¿Vacunado?</th>
+                    <th>Zona de ingreso</th>
+                    <th></th>
                     
                 </tr>
             </thead>
             <tbody>
                 {{for i in datos:}}
                 <tr>
-                    <td class="table-plus">{{=i.id}}</td>
+                    <td class="table-plus">{{=i.fecha_ingreso.strftime("%d/%m/%Y")}}</td>
+                    <td>{{=i.ci}}</td>
+                    <td>{{=i.nombre}}</td>
+                    <td>{{=i.apellidos}}</td>
+                    <td>{{=i.edad}}</td>
+                    <td>{{=i.sexo}}</td>
+                    <td>{{='Si' if i.vacunado else 'No'}}</td>
+                    <td>{{=i.idubicacion.nombre}}</td>
                     <td>
                         <div class="dropdown">
                             <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
@@ -39,7 +54,7 @@
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                                 <a class="dropdown-item" href="{{=URL('origen', 'detalles', args=i.id)}}"><i
                                         class="dw dw-eye"></i> Detalles</a>
-                                <a class="dropdown-item" href="{{=URL('origen', 'editar', args=i.id)}}"><i
+                                <a class="dropdown-item" href="{{=URL('ingreso_hospitalario', 'editar', args=i.id)}}"><i
                                         class="dw dw-edit2"></i> Editar</a>
                                 <a class="dropdown-item" href="#" onclick="eliminar('{{=i.id}}')"><i
                                         class="dw dw-delete-3"></i> Eliminar</a>
@@ -81,7 +96,7 @@
     function eliminar(id) {
         swal({
             title: "¿Está seguro de eliminar?",
-            text: "El origen será eliminado completamente del sistema.",
+            text: "Los datos de ingreso será eliminado completamente del sistema.",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
@@ -92,7 +107,7 @@
         },
             function (isConfirm) {
                 if (isConfirm) {
-                    var url = "{{=URL('origen','eliminar')}}";
+                    var url = "{{=URL('ingreso_hospitalario','eliminar')}}";
                     location.href = url + "/" + id;
                 }
                 else {

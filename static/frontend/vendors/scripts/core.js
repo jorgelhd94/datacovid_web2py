@@ -17005,9 +17005,10 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             '<div class="datepicker--content"></div>' +
             '</div>',
         defaults = {
+            dateValue: '',
             classes: '',
             inline: false,
-            language: 'es',
+            language: 'en',
             startDate: new Date(),
             firstDay: '',
             weekends: [6, 0],
@@ -17106,6 +17107,10 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 
         if (!this.opts.startDate) {
             this.opts.startDate = new Date();
+        }
+
+        if (!this.opts.dateValue) {
+            this.opts.dateValue = '';
         }
 
         if (this.el.nodeName == 'INPUT') {

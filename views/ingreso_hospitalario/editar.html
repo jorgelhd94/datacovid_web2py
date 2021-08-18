@@ -8,18 +8,20 @@
 </style>
 {{end head}}
 
-<a href="{{=URL('origen', 'administrar')}}" class=" mb-10 btn btn-primary"> <span><i class="fa fa-list"></i></span>
+<a href="{{=URL('ingreso_hospitalario', 'administrar')}}" class=" mb-10 btn btn-primary"> <span><i
+            class="fa fa-list"></i></span>
     Administrar</a>
 
-<a href="{{=URL('origen', 'detalles', args=origen.id)}}" class=" mb-10 btn btn-info"> <span><i
+<a href="{{=URL('ingreso_hospitalario', 'detalles', args=ingreso.id)}}" class=" mb-10 btn btn-info"> <span><i
             class="fa fa-eye"></i></span>
     Detalles
 </a>
 
+
 <div id="container">
     <div class="pd-20 card-box mb-30">
         <div class="clearfix">
-            <h4 class="text-green h4">Editar oríden de muestra</h4>
+            <h4 class="text-green h4">Editar ingreso</h4>
         </div>
 
         <div class="mt-4">
@@ -30,13 +32,72 @@
                     {{=form.custom.label.nombre}} <span class="text-red">*</span>
                     <div class="">{{=form.custom.widget.nombre}}</div>
                 </div>
-
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.apellidos}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.apellidos}}</div>
+                </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-4 mb-5">
-                    {{=form.custom.label.idmunicipio}} <span class="text-red">*</span>
-                    <div class="">{{=form.custom.widget.idmunicipio}}</div>
+
+            <div class="row mb-10">
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.edad}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.edad}}</div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.ci}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.ci}}</div>
+                </div>
+            </div>
+
+
+            <div class="row mb-10">
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.sexo}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.sexo}}</div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.fecha_ingreso}} <span class="text-red">*</span>
+                    <div class="">
+                        <input id="ingreso_hospitalario_fecha_ingreso" name="fecha_ingreso"
+                            class="form-control date-picker" placeholder="Seleccione la fecha" type="text">
+                    </div>
+                    {{if form.errors.fecha_ingreso:}}
+                    <p class="text-red">{{=form.errors.fecha_ingreso}}</p>
+                    {{pass}}
+                </div>
+            </div>
+
+            <div class="row mb-10">
+                <div class="col-md-4 mb-2" style="padding-top: 1%;">
+                    <div class="custom-control custom-checkbox mb-5">
+                        <input class="custom-control-input" id="ingreso_hospitalario_vacunado" name="vacunado"
+                            type="checkbox">
+
+                        <label class="custom-control-label" for="ingreso_hospitalario_vacunado">Vacunado <span
+                                class="text-red">*</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mb-10" id="vacunacion_select">
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.tipo_vacunacion}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.tipo_vacunacion}}</div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.vacuna}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.vacuna}}</div>
+                </div>
+            </div>
+
+
+            <div class="row mb-10">
+                <div class="col-md-4 mb-2">
+                    {{=form.custom.label.morbilidades}} <span class="text-red">*</span>
+                    <div class="">{{=form.custom.widget.morbilidades}}</div>
                 </div>
             </div>
 
@@ -53,10 +114,37 @@
 {{block page_js}}
 
 <script>
+    $('.date-picker').datepicker();
+
+    // Select2
     $("select").select2();
 
-    const idmunicipio = document.querySelector("#origen_idmunicipio");
-    idmunicipio.removeChild(idmunicipio.firstChild);
+    const tipo_vacunacion = document.querySelector("#ingreso_hospitalario_tipo_vacunacion");
+    const vacuna = document.querySelector("#ingreso_hospitalario_vacuna");
+    const sexo = document.querySelector("#ingreso_hospitalario_sexo");
+
+    tipo_vacunacion.removeChild(tipo_vacunacion.firstChild);
+    vacuna.removeChild(vacuna.firstChild);
+    sexo.removeChild(sexo.firstChild);
+
+    $('.select2').css('width', '100%');
+    // End Select2
+
+    // Vacunacion Bool
+    $(document).ready(function () {
+        $('#vacunacion_select').hide();
+
+        $('#ingreso_hospitalario_vacunado').click(function () {
+            if ($('#ingreso_hospitalario_vacunado').prop('checked')) {
+                $('#vacunacion_select').show();
+            }
+            else {
+                $('#vacunacion_select').hide();
+            }
+        })
+
+    });
+    // End Vacunacion Bool
 </script>
 
 {{end page_js}}
