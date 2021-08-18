@@ -166,13 +166,6 @@ jQuery(document).ready(function(){
 		CopyToClipboard('',true, "Copied");
 		e.clearSelection();
 	});
-
-	// date picker
-	$('.date-picker').datepicker({
-		language: 'en',
-		autoClose: true,
-		dateFormat: 'dd-mm-yyyy',
-	});
 	$('.datetimepicker').datepicker({
 		timepicker: true,
 		language: 'en',
