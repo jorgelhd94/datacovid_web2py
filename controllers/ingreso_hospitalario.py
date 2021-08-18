@@ -7,13 +7,16 @@ def administrar():
 
 @auth.requires_membership("Ingresos Hospitalarios")
 def crear():
+    db.ingreso_hospitalario.estado.writable = False
     form = SQLFORM(db.ingreso_hospitalario)
 
     if form.validate():
         form.vars.idubicacion = db(db.usuario_ubicacion.idusuario == auth.user.id).select().first().idubicacion
+    
         if not form.vars.vacunado:
             form.vars.tipo_vacunacion = ""
             form.vars.vacuna = ""
+        
         ingreso_id = db.ingreso_hospitalario.insert(**form.vars)
         session.status = True
         session.msg = T('El Ingreso Hospitalario se ha creado correctamente')

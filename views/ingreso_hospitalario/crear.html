@@ -83,10 +83,6 @@
 
             <div class="row mb-10">
                 <div class="col-md-4 mb-2">
-                    {{=form.custom.label.estado}} <span class="text-red">*</span>
-                    <div class="">{{=form.custom.widget.estado}}</div>
-                </div>
-                <div class="col-md-4 mb-2">
                     {{=form.custom.label.morbilidades}} <span class="text-red">*</span>
                     <div class="">{{=form.custom.widget.morbilidades}}</div>
                 </div>
@@ -112,11 +108,9 @@
 
     const tipo_vacunacion = document.querySelector("#ingreso_hospitalario_tipo_vacunacion");
     const vacuna = document.querySelector("#ingreso_hospitalario_vacuna");
-    const estado = document.querySelector("#ingreso_hospitalario_estado");
 
     tipo_vacunacion.removeChild(tipo_vacunacion.firstChild);
     vacuna.removeChild(vacuna.firstChild);
-    estado.removeChild(estado.firstChild);
 
     $('.select2').css('width', '100%');
     // End Select2
