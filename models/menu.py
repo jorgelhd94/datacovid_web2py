@@ -45,13 +45,6 @@ menu_ingresos = [
         (T('Administrar'), request.controller == "ingreso_hospitalario" and request.function ==
          "administrar", URL('ingreso_hospitalario', 'administrar')),
     ]),
-    (T('Ubicación casos activos'), request.controller == "ubicacion" and (request.function == "crear" or
-                                                                          request.function == "administrar"), None, [
-        (T('Crear ubicación'), request.controller ==
-         "ubicacion" and request.function == "crear", URL('ubicacion', 'crear')),
-        (T('Administrar'), request.controller == "ubicacion" and request.function ==
-         "administrar", URL('ubicacion', 'administrar')),
-    ]),
 ]
 
 

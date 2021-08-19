@@ -1,10 +1,14 @@
-@auth.requires_login()
+requirements = auth.has_membership(
+    "Administrador") or auth.has_membership("Puesto de mando")
+
+
+@auth.requires(requirements)
 def administrar():
     origen = db(db.origen.id > 0).select()
     return locals()
 
 
-@auth.requires_login()
+@auth.requires(requirements)
 def detalles():
     if not request.args(0):
         redirect(URL('administrar'))
@@ -12,7 +16,7 @@ def detalles():
     return locals()
 
 
-@auth.requires_login()
+@auth.requires(requirements)
 def crear():
     db.origen.idmunicipio.requires = IS_IN_DB(
         db(db.municipio.id > 0), "municipio.id", '%(nombre)s')
@@ -30,7 +34,7 @@ def crear():
     return locals()
 
 
-@auth.requires_login()
+@auth.requires(requirements)
 def editar():
     if not request.args(0):
         redirect(URL('administrar'))
@@ -54,7 +58,7 @@ def editar():
     return locals()
 
 
-@auth.requires_login()
+@auth.requires(requirements)
 def eliminar():
     if not request.args(0):
         redirect(URL('administrar'))
