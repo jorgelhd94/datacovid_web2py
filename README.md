@@ -1,4 +1,4 @@
-# InfoCovid
+# DataCovid
 ## Sistema informático para la gestión de reportes sobre la covid-19
 
 Este proyecto es una aplicación desarrollada usando el framework Web2Py, su objetivo es gestionar eficientemente 
