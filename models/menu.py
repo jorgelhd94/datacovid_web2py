@@ -39,7 +39,7 @@ menu_generico = [
 menu_ingresos = [
     ("Divisor",),
     (T('Ingresos'), request.controller == "ingreso_hospitalario" and (request.function == "crear" or
-                                                                  request.function == "administrar"), None, [
+                                                                      request.function == "administrar"), None, [
         (T('Nuevo ingreso'), request.controller ==
          "ingreso_hospitalario" and request.function == "crear", URL('ingreso_hospitalario', 'crear')),
         (T('Administrar'), request.controller == "ingreso_hospitalario" and request.function ==
@@ -53,7 +53,6 @@ menu_ingresos = [
          "administrar", URL('ubicacion', 'administrar')),
     ]),
 ]
-
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -71,6 +70,12 @@ if auth.has_membership("Administrador"):
         ]),
         (T('Generar informe'), request.controller == "informe" and request.function ==
          "seleccionar_reporte", URL('informe', 'seleccionar_reporte'), []),
+        ("Divisor",),
+        (T('Ingresos'), request.controller == "ingreso_hospitalario" and (request.function == "crear" or
+                                                                          request.function == "administrar"), None, [
+         (T('Administrar'), request.controller == "ingreso_hospitalario" and request.function ==
+             "administrar", URL('ingreso_hospitalario', 'administrar')),
+         ]),
         ("Divisor",),
         (T('Eventos'), request.controller == "evento" and (request.function == "crear" or
                                                            request.function == "administrar"), None, [

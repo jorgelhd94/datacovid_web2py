@@ -8,7 +8,7 @@
 </style>
 {{end head}}
 
-<a href="{{=URL('origen', 'administrar')}}" class=" mb-10 btn btn-primary"> <span><i
+<a href="{{=URL('ingreso_hospitalario', 'administrar')}}" class=" mb-10 btn btn-primary"> <span><i
             class="fa fa-list"></i></span>
     Administrar</a>
 
@@ -21,14 +21,45 @@
                 </div>
                 <div class="col-md-6 text-right">
                     
-                    <a href="{{=URL('origen', 'editar', args=origen.id)}}" title="Editar"
+                    <a href="{{=URL('ingreso_hospitalario', 'cambiar_estado', args=ingreso.id)}}" title="Cambiar estado"
+                        class=" mb-10 btn btn-info"> <span><i class="fa fa-refresh"></i></span>
+                    </a>
+                    
+                    {{if not auth.has_membership('Administrador'):}}
+                    <a href="{{=URL('ingreso_hospitalario', 'editar', args=ingreso.id)}}" title="Editar"
                         class=" mb-10 btn btn-success"> <span><i class="fa fa-pencil"></i></span>
                     </a>
+                    {{pass}}
                 </div>
             </div>
 
-            <h6>Nombre: {{=origen.nombre}}</h6>
-            <h6>Municipio: {{=origen.idmunicipio.nombre}}</h6>
+            <h5>{{=ingreso.idubicacion.nombre}}</h5>
+            <br>
+
+            <h6>Nombre: {{=ingreso.nombre}}</h6>
+            <h6>Apellidos: {{=ingreso.apellidos}}</h6>
+            <h6>Edad: {{=ingreso.edad}}</h6>
+            <h6>Carnet de identidad: {{=ingreso.ci}}</h6>
+            <h6>Sexo: {{=ingreso.sexo}}</h6>
+
+            {{vacunado = 'Si' if ingreso.vacunado else 'No'}}
+            {{if ingreso.vacunado:}}
+            <br>
+            <h6>Vacunado: {{=vacunado}}</h6>
+            <h6>Tipo de vacunación: {{=ingreso.tipo_vacunacion}}</h6>
+            <h6>Vacuna: {{=ingreso.vacuna}}</h6>
+            {{else:}}
+            <h6>Vacunado: {{=vacunado}}</h6>
+            {{pass}}
+            
+            <br>
+            <h6>Fecha de ingreso: {{=ingreso.fecha_ingreso.strftime("%d-%m-%Y")}}</h6>
+            <h6>Estado: {{=ingreso.estado}}</h6>
+            {{if ingreso.estado == 'Alta':}}
+            <h6>Fecha de alta médica: {{=ingreso.fecha_alta.strftime("%d-%m-%Y")}}</h6>
+            {{elif ingreso.estado == 'Fallecido':}}
+            <h6>Fecha de muerte: {{=ingreso.fecha_alta.strftime("%d-%m-%Y")}}</h6>
+            {{pass}}
             
         </div>
     </div>

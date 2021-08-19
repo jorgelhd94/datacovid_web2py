@@ -60,8 +60,9 @@
                     {{=form.custom.label.fecha_ingreso}} <span class="text-red">*</span>
                     <div class="">
                         <input class="form-control date-picker" id="ingreso_hospitalario_fecha_ingreso"
-                        name="fecha_ingreso"
-                         placeholder="Seleccione la fecha" type="text" value="{{=ingreso.fecha_ingreso.strftime('%d/%m/%Y')}}">
+                            name="fecha_ingreso" placeholder="Seleccione la fecha" type="text"
+                            data-date-format="dd/mm/yyyy" 
+                            value="{{=ingreso.fecha_ingreso.strftime('%d/%m/%Y')}}">
                     </div>
                     {{if form.errors.fecha_ingreso:}}
                     <p class="text-red">{{=form.errors.fecha_ingreso}}</p>
@@ -131,7 +132,17 @@
 
     // Vacunacion Bool
     $(document).ready(function () {
+        /*
+        El codigo comentado a continuacion es código de web2py 
+        y el framework lo ejecuta no importa si es un comentario
+        */
+
+        // {{if ingreso.vacunado:}}
+        $('#ingreso_hospitalario_vacunado').prop('checked', 'true')
+        $('#vacunacion_select').show();
+        // {{else:}}
         $('#vacunacion_select').hide();
+        // {{pass}}
 
         $('#ingreso_hospitalario_vacunado').click(function () {
             if ($('#ingreso_hospitalario_vacunado').prop('checked')) {

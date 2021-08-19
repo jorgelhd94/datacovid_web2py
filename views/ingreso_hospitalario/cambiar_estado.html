@@ -1,0 +1,110 @@
+{{extend 'layout_frontend.html'}}
+
+{{block head}}
+<style>
+    .text-red {
+        color: red;
+    }
+</style>
+{{end head}}
+
+<a href="{{=URL('ingreso_hospitalario', 'administrar')}}" class=" mb-10 btn btn-primary"> <span><i
+            class="fa fa-list"></i></span>
+    Administrar</a>
+
+<div id="container">
+    <div class="pd-20 card-box mb-30">
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="h4 text-green mb-20">Cambiar estado</h5>
+                <h5 class="h4 text-green mb-20">
+                    <p>Nombre completo: {{=ingreso.nombre + ' ' + ingreso.apellidos}}</p>
+                    <p>Carnet de identidad: {{=ingreso.ci}}</p>
+                </h5>
+            </div>
+            <div class="col-md-6 text-right">
+
+                <a href="{{=URL('ingreso_hospitalario', 'detalles', args=ingreso.id)}}" title="Detalles"
+                    class=" mb-10 btn btn-info"> <span><i class="fa fa-eye"></i></span>
+                </a>
+
+                {{if not auth.has_membership('Administrador'):}}
+                <a href="{{=URL('ingreso_hospitalario', 'editar', args=ingreso.id)}}" title="Editar"
+                    class=" mb-10 btn btn-success"> <span><i class="fa fa-pencil"></i></span>
+                </a>
+                {{pass}}
+            </div>
+
+
+            <div class="col-md-6">
+                {{=form.custom.begin}}
+
+                <div class="row mb-10">
+                    <div class="col-md-6 mb-2">
+                        {{=form.custom.label.estado}}
+                        <div class="">{{=form.custom.widget.estado}}</div>
+                    </div>
+                </div>
+
+                <div class="row mb-10" id="fecha_alta">
+                    <div class="col-md-6 mb-2">
+                        Fecha <span class="text-red">*</span>
+                        <div class="">
+                            <input id="no_table_fecha_alta" name="fecha_alta" class="form-control date-picker"
+                                data-date-format="dd/mm/yyyy" placeholder="Seleccione la fecha" type="text"
+                                value="{{=ingreso.fecha_alta.strftime('%d/%m/%Y') if ingreso.fecha_alta else ''}}">
+                        </div>
+                        {{if form.errors.fecha_alta:}}
+                        <p class="text-red">{{=form.errors.fecha_alta}}</p>
+                        {{pass}}
+                    </div>
+                </div>
+
+                <br>
+                {{=form.custom.submit}}
+                {{=form.custom.end}}
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+{{block page_js}}
+
+<script>
+    // Select2
+    $("select").select2();
+
+    const estado = document.querySelector("#no_table_estado");
+    estado.removeChild(estado.firstChild);
+
+    $('.select2').css('width', '100%');
+    // End Select2
+
+    // Fecha Bool
+    $(document).ready(function () {
+        function hide_show_date() {
+            let estado_val = $("#no_table_estado").val();
+
+            if (estado_val === 'Alta' || estado_val == 'Fallecido') {
+                $('#fecha_alta').show();
+            }
+            else {
+                $('#fecha_alta').hide();
+            }
+        }
+
+        hide_show_date();
+
+        $('#no_table_estado').change(function () {
+            hide_show_date();
+        })
+
+    });
+    // End Fecha Bool
+</script>
+
+{{end page_js}}

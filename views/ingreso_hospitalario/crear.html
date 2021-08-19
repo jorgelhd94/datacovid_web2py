@@ -20,7 +20,7 @@
 
         <div class="mt-4">
             {{=form.custom.begin}}
-
+            
             <div class="row mb-10">
                 <div class="col-md-4 mb-2">
                     {{=form.custom.label.nombre}} <span class="text-red">*</span>
@@ -31,8 +31,8 @@
                     <div class="">{{=form.custom.widget.apellidos}}</div>
                 </div>
             </div>
-
-
+            
+            
             <div class="row mb-10">
                 <div class="col-md-4 mb-2">
                     {{=form.custom.label.edad}} <span class="text-red">*</span>
@@ -43,8 +43,8 @@
                     <div class="">{{=form.custom.widget.ci}}</div>
                 </div>
             </div>
-
-
+            
+            
             <div class="row mb-10">
                 <div class="col-md-4 mb-2">
                     {{=form.custom.label.sexo}} <span class="text-red">*</span>
@@ -53,29 +53,27 @@
                 <div class="col-md-4 mb-2">
                     {{=form.custom.label.fecha_ingreso}} <span class="text-red">*</span>
                     <div class="">
-                        <input id="ingreso_hospitalario_fecha_ingreso" name="fecha_ingreso"
-                            class="form-control date-picker" placeholder="Seleccione la fecha" type="text">
+                        <input id="ingreso_hospitalario_fecha_ingreso" name="fecha_ingreso" class="form-control date-picker"
+                            data-date-format="dd/mm/yyyy" placeholder="Seleccione la fecha" type="text">
                     </div>
                     {{if form.errors.fecha_ingreso:}}
                     <p class="text-red">{{=form.errors.fecha_ingreso}}</p>
                     {{pass}}
                 </div>
             </div>
-
+            
             <div class="row mb-10">
                 <div class="col-md-4 mb-2" style="padding-top: 1%;">
                     <div class="custom-control custom-checkbox mb-5">
-                        <input class="custom-control-input" id="ingreso_hospitalario_vacunado" name="vacunado"
-                            type="checkbox">
-
-                        <label class="custom-control-label" for="ingreso_hospitalario_vacunado">Vacunado <span
-                                class="text-red">*</span>
+                        <input class="custom-control-input" id="ingreso_hospitalario_vacunado" name="vacunado" type="checkbox">
+            
+                        <label class="custom-control-label" for="ingreso_hospitalario_vacunado">Vacunado
                         </label>
                     </div>
                 </div>
             </div>
-
-
+            
+            
             <div class="row mb-10" id="vacunacion_select">
                 <div class="col-md-4 mb-2">
                     {{=form.custom.label.tipo_vacunacion}} <span class="text-red">*</span>
@@ -86,20 +84,19 @@
                     <div class="">{{=form.custom.widget.vacuna}}</div>
                 </div>
             </div>
-
-
+            
+            
             <div class="row mb-10">
                 <div class="col-md-4 mb-2">
                     {{=form.custom.label.morbilidades}} <span class="text-red">*</span>
                     <div class="">{{=form.custom.widget.morbilidades}}</div>
                 </div>
             </div>
-
+            
             <br>
             {{=form.custom.submit}}
             {{=form.custom.end}}
         </div>
-
 
     </div>
 

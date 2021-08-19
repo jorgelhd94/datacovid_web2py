@@ -7,10 +7,12 @@
     href="{{=URL('static/frontend', 'src/plugins/datatables/css/responsive.bootstrap4.min.css')}}">
 {{end head}}
 
+{{if not auth.has_membership('Administrador'):}}
 <div class="pb-20">
     <a href="{{=URL('ingreso_hospitalario', 'crear')}}" class="btn btn-success"> <span><i class="fa fa-plus"></i></span>
         Nuevo ingreso</a>
 </div>
+{{pass}}
 
 <!-- Simple Datatable start -->
 <div class="card-box mb-30">
@@ -29,9 +31,10 @@
                     <th>Edad</th>
                     <th>Sexo</th>
                     <th>¿Vacunado?</th>
+                    <th>Estado</th>
                     <th>Zona de ingreso</th>
                     <th></th>
-                    
+
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +47,7 @@
                     <td>{{=i.edad}}</td>
                     <td>{{=i.sexo}}</td>
                     <td>{{='Si' if i.vacunado else 'No'}}</td>
+                    <td>{{=i.estado}}</td>
                     <td>{{=i.idubicacion.nombre}}</td>
                     <td>
                         <div class="dropdown">
@@ -52,10 +56,19 @@
                                 <i class="dw dw-more"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                <a class="dropdown-item" href="{{=URL('origen', 'detalles', args=i.id)}}"><i
+                                <a class="dropdown-item"
+                                    href="{{=URL('ingreso_hospitalario', 'cambiar_estado', args=i.id)}}"><i
+                                        class="dw dw-rotate"></i> Cambiar estado</a>
+                                <a class="dropdown-item"
+                                    href="{{=URL('ingreso_hospitalario', 'detalles', args=i.id)}}"><i
                                         class="dw dw-eye"></i> Detalles</a>
+
+                                {{if not auth.has_membership('Administrador'):}}
                                 <a class="dropdown-item" href="{{=URL('ingreso_hospitalario', 'editar', args=i.id)}}"><i
                                         class="dw dw-edit2"></i> Editar</a>
+
+                                {{pass}}
+
                                 <a class="dropdown-item" href="#" onclick="eliminar('{{=i.id}}')"><i
                                         class="dw dw-delete-3"></i> Eliminar</a>
                             </div>
